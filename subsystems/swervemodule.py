@@ -1,5 +1,5 @@
 class swerveModule:
-    __init__(self, m_motorDrive, m_motorTurn, m_encoderTurn, m_encoderOffset):
+    def __init__(self, m_motorDrive, m_motorTurn, m_encoderTurn, m_encoderOffset):
         # Resets the swerve module motors and encoders to factory settings
         m_motorDrive.RestoreFactoryDefaults()
         m_motorTurn.RestoreFactoryDefaults()
@@ -54,3 +54,10 @@ class swerveModule:
 
 def GetPosition():
     return [m_encoderDrive.GetPosition(), ((m_encoderTurn.GetAbsolutePosition()))]  
+
+def SetDesiredState(refenceState):
+    state = CustomOptimize(refenceState, m_encoderTurn.GetAbsolutePosition)
+    targetWheelSpeed = state.speed
+    m_targetAngle = state.angle.Degrees().value();
+    turnOutput = m_targetAngle
+    targetMotorSpeed = [(targetWheelSpeed *2*3.14159) / drivetrainConstants::calculations::kWheelCircumference]
