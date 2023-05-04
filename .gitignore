@@ -132,3 +132,6 @@ dmypy.json
 #Tests
 
 tests/
+
+# Other
+test.ipynb
