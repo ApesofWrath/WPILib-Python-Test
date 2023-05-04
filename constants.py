@@ -2,11 +2,10 @@ from os import environ
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 # Get the name of the robot (may be moved to main.py)
 robot_name = environ.get("Robot")
-logger.info("Current Robot %s", robot_name)
+logger.info("Current Robot: %s", robot_name)
 
 class ControllerConstants:
     ControllerMainID = 0
@@ -49,4 +48,20 @@ class DrivetrainConstants:
         else:
             raise Exception("Robot Name Invalid!")
 
-                
+    class SwerveModules:
+        kModuleFrontRight =  [super().kMotorDriveFrontRightID,
+                                super().kMotorTurnFrontRightID,
+                                super().kEncoderTurnFrontRightID,
+                                super().Offsets.kFrontRight]
+        kModuleRearRight =  [super().kMotorDriveRearRightID,
+                                                  super().kMotorTurnRearRightID,
+                                                  super().kEncoderTurnRearRightID,
+                                                  super().Offsets.kRearRight]
+        kModuleFrontLeft =  [super().kMotorDriveFrontLeftID,
+                                                  super().kMotorTurnFrontLeftID,
+                                                  super().kEncoderTurnFrontLeftID,
+                                                  super().Offsets.kFrontLeft]
+        kModuleRearLeft =  [super().kMotorDriveRearLeftID,
+                                                 super().kMotorTurnRearLeftID,
+                                                 super().kEncoderTurnRearLeftID,
+                                                 super().Offsets.kRearLeft]
