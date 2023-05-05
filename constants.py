@@ -1,6 +1,6 @@
 from os import environ
 import logging
-
+from math import pi
 logger = logging.getLogger(__name__)
 
 # Get the name of the robot (may be moved to main.py)
@@ -47,21 +47,17 @@ class DrivetrainConstants:
             kRearLeft = [2.285]
         else:
             raise Exception("Robot Name Invalid!")
+        
+    class Calculations:
+        kFinalDriveRatio = 6.75 * 360;
+        kFinalTurnRatio = (14.0 / 50.0) * (10.0 / 60.0)
+        kWheelCircumference = 2 * pi * 3.8 / 2;
 
-    class SwerveModules:
-        kModuleFrontRight =  [super().kMotorDriveFrontRightID,
-                                super().kMotorTurnFrontRightID,
-                                super().kEncoderTurnFrontRightID,
-                                super().Offsets.kFrontRight]
-        kModuleRearRight =  [super().kMotorDriveRearRightID,
-                                                  super().kMotorTurnRearRightID,
-                                                  super().kEncoderTurnRearRightID,
-                                                  super().Offsets.kRearRight]
-        kModuleFrontLeft =  [super().kMotorDriveFrontLeftID,
-                                                  super().kMotorTurnFrontLeftID,
-                                                  super().kEncoderTurnFrontLeftID,
-                                                  super().Offsets.kFrontLeft]
-        kModuleRearLeft =  [super().kMotorDriveRearLeftID,
-                                                 super().kMotorTurnRearLeftID,
-                                                 super().kEncoderTurnRearLeftID,
-                                                 super().Offsets.kRearLeft]
+        kModuleMaxSpeed = 16.3
+        kChassisMaxSpeed = 16.3
+
+        kModuleMaxAngularVelocity= pi * 4  # radians per second
+        kModuleMaxAngularAcceleration = pi * 8 / 1  # radians per second^2
+
+        kMotorMaxOutput = 0.5
+        kMotorDeadband = 0.1
