@@ -1,5 +1,17 @@
+import ctre.sensors
+import rev
+from constants import DrivetrainConstants
 class swerveModule:
-    def __init__(self, m_motorDrive, m_motorTurn, m_encoderTurn, m_encoderOffset):
+    def __init__(self):
+        m_encorderTurn = ctre.sensors.WPI_CANCoder
+        m_motorDrive = rev.CANSparkMax
+        m_motorTurn = rev.CANSparkMax
+        m_encoderDrive = m_motorDrive.getEncoder(rev.SparkMaxRelativeEncoder.Type.kHallSensor, 42)
+        m_encoderTurnIntegrated = m_motorTurn.getEncoder(rev.SparkMaxRelativeEncoder.Type.kHallSensor, 42)
+
+        m_driveController = m_motorDrive.GetPIDController()
+        m_turnController = m_motorTurn.GetPIDController()
+
         # Resets the swerve module motors and encoders to factory settings
         m_motorDrive.RestoreFactoryDefaults()
         m_motorTurn.RestoreFactoryDefaults()
@@ -24,7 +36,7 @@ class swerveModule:
         # Configurations and settings for the encoders
         m_encoderTurn.ConfigVelocityMeasurementPeriod(ctre.sensors.SensorVelocityMeasPeriod.Period_100Ms)
         m_encoderTurn.ConfigAbsoluteSensorRange(ctre.sensors.AbsoluteSensorRange.Signed_PlusMinus180)
-        m_encoderTurn.ConfigSensorDirection(false)
+        m_encoderTurn.ConfigSensorDirection(False)
         m_encoderTurn.ConfigSensorInitializationStrategy(ctre.sensors.SensorInitializationStrategy.BootToAbsolutePosition)
         m_encoderTurn.ConfigFeedbackCoefficient(360.0 / 4096.0, "deg", ctre.sensors.SensorTimeBase.PerSecond)
 
@@ -52,12 +64,12 @@ class swerveModule:
         m_encoderDrive.SetPositionConversionFactor(0.0508 * 2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)))
         m_encoderDrive.SetVelocityConversionFactor(0.0508 * (2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))) / 60.0)
 
-def GetPosition():
+def GetPosition(self):
     return [m_encoderDrive.GetPosition(), ((m_encoderTurn.GetAbsolutePosition()))]  
 
-def SetDesiredState(refenceState):
+def SetDesiredState(self, refenceState):
     state = CustomOptimize(refenceState, m_encoderTurn.GetAbsolutePosition)
     targetWheelSpeed = state.speed
-    m_targetAngle = state.angle.Degrees().value();
+    m_targetAngle = state.angle.Degrees().value()
     turnOutput = m_targetAngle
-    targetMotorSpeed = [(targetWheelSpeed *2*3.14159) / drivetrainConstants::calculations::kWheelCircumference]
+    targetMotorSpeed = [(targetWheelSpeed *2*3.14159) / DrivetrainConstants.Calculations.kWheelCircumference]
