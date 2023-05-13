@@ -1,7 +1,7 @@
 import ctre.sensors
 import rev
-from constants import DrivetrainConstants
 import wpimath.kinematics
+from constants import DrivetrainConstants
 class SwerveModule:
     def __init__(self, drive_motor_id, turn_motor_id, encoder_id, offset):
         
@@ -70,9 +70,15 @@ class SwerveModule:
         self.drive_motor_encoder.setVelocityConversionFactor(0.0508 * (2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))) / 60.0)
 
 
-def GetPosition(self):
-    return wpimath.kinematics.SwerveModulePosition(self.drive_motor_encoder.getPosition(), self.turn_encoder.getAbsolutePosition())  
-def SetDesiredState(self, desiredState):
-    currentAngle = self.turn_encoder.getAbsolutePosition()
-    desiredStateOptimized = desiredState.optimize(desiredState, currentAngle) 
+    # Gets the current position of the swerve module
+    def get_position(self):
+        
+        return wpimath.kinematics.SwerveModulePosition(self.drive_motor_encoder.getPosition(), self.turn_encoder.getAbsolutePosition())  
+
+    # Sets the desired state of the swerve module
+    def set_desired_state(self, desired_state):
+        current_angle = self.turn_encoder.getAbsolutePosition()
+
+        # Optimize the desiredState
+        desired_state_optimized = desired_state.optimize(desired_state, current_angle) 
     
