@@ -46,7 +46,7 @@ class SwerveModule:
         self.turn_encoder.configFeedbackCoefficient(360.0 / 4096.0, "deg", ctre.sensors.SensorTimeBase.PerSecond)
 
         # Sets the feedback device of the drive motor to the built in motor encoder and the feedback device of the turn motor to the external encoder
-        self.drive_motor_pid_controller.setFeedbackDevice(m_encoderDrive)
+        self.drive_motor_pid_controller.setFeedbackDevice(self.drive_motor_encoder)
         self.turn_motor_pid_controller.setFeedbackDevice(self.turn_motor_encoder)
 
         self.drive_motor_pid_controller.setP(0.001)
@@ -68,12 +68,11 @@ class SwerveModule:
 
         self.drive_motor_encoder.setPositionConversionFactor(0.0508 * 2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)))
         self.drive_motor_encoder.setVelocityConversionFactor(0.0508 * (2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))) / 60.0)
-        self.drive_motor_encoder.getP
+
+
 def GetPosition(self):
     return wpimath.kinematics.SwerveModulePosition(self.drive_motor_encoder.getPosition(), self.turn_encoder.getAbsolutePosition())  
-def SetDesiredState(self, refenceState):
-    referenceState = referenceState.optimize
-    targetWheelSpeed = state.speed
-    m_targetAngle = state.angle.Degrees().value()
-    turnOutput = m_targetAngle
-    targetMotorSpeed = [(targetWheelSpeed *2*3.14159) / DrivetrainConstants.Calculations.kWheelCircumference]
+def SetDesiredState(self, desiredState):
+    currentAngle = self.turn_encoder.getAbsolutePosition()
+    desiredStateOptimized = desiredState.optimize(desiredState, currentAngle) 
+    
