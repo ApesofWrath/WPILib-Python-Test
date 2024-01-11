@@ -72,13 +72,12 @@ class SwerveModule:
 
     # Gets the current position of the swerve module
     def get_position(self):
-        
         return wpimath.kinematics.SwerveModulePosition(self.drive_motor_encoder.getPosition(), self.turn_encoder.getAbsolutePosition())  
 
     # Sets the desired state of the swerve module
     def set_desired_state(self, desired_state):
         current_angle = self.turn_encoder.getAbsolutePosition()
-
+    
         # Optimize the desiredState
         desired_state_optimized = desired_state.optimize(desired_state, current_angle) 
-    
+        
