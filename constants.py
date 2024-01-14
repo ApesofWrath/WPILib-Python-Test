@@ -1,5 +1,8 @@
 from os import environ
 import logging
+import pint
+ureg = pint.UnitRegistry()
+from math import pi
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -49,4 +52,16 @@ class DrivetrainConstants:
         else:
             raise Exception("Robot Name Invalid!")
 
-                
+    class Calculations:
+        kFinalDriveRatio= 6.75 * 360 #degrees
+        kFinalTurnRatio = (14.0 / 50.0) * (10.0 / 60.0)
+        kWheelCircumference = pi * 3.8 #inches
+
+        kModuleMaxSpeed = 16.3 #Feet Per Second
+        kChassisMaxSpeed = 16.3
+
+        kModuleMaxAngularVelocity= pi * 4  #radians per second
+        kModuleMaxAngularAcceleration= pi * 8/1  #radians per second^2
+
+        kMotorMaxOutput = 0.5
+        kMotorDeadband = 0.1
