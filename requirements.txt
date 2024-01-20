@@ -2,3 +2,4 @@ numpy
 robotpy
 robotpy[ctre]
 robotpy[rev]
+robotpy[navx]

@@ -1,8 +1,8 @@
+# TODO: use pyproject.toml (https://docs.wpilib.org/en/stable/docs/software/python/pyproject_toml.html)
+
 import wpilib
 import wpilib.drive
 import wpimath
-import rev
-
 
 class MyRobot(wpilib.TimedRobot):
 
@@ -20,7 +20,7 @@ class MyRobot(wpilib.TimedRobot):
             "frontleft":wpimath.geometry.Translation2d(0.3556, -0.3556),
             "rearleft":wpimath.geometry.Translation2d(0.3556, -0.3556),
         }
-        self.robotCenter = wpimath.geometry.Translation2d(0.0, 0.0)
+        self.robotCenter = wpimath.geometry.Translation2d(0.0, 0.0) # TODO: figure out how to get this in other files, drivetrain.py specifically
         self.kinematics = wpimath.kinematics.SwerveDrive4Kinematics(self.swerveLocations["frontright"], 
                                                                     self.swerveLocations["rearright"], 
                                                                     self.swerveLocations["frontleft"], 
@@ -45,6 +45,6 @@ class MyRobot(wpilib.TimedRobot):
         self.test_motor.set(self.stick.getY())
         chassisSpeeds = wpimath.kinematics.ChassisSpeeds(self.stick.getX(), self.stick.getY(), 0)
         fl, fr, bl, br = self.kinematics.toSwerveModuleStates(chassisSpeeds)
-
+    	
 if __name__ == "__main__":
     wpilib.run(MyRobot)
