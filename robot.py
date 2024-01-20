@@ -2,6 +2,7 @@
 try:
     from extramodules.debugmsgs import debugMsg, successMsg, errorMsg # Colorfull messages that we can use
     from components.swervemodule import SwerveModule
+    from components.drivetrain import SwerveDrive
 
     # Print debug message that all robot modules were imported successfully
     successMsg('Custom modules imported')

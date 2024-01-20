@@ -11,4 +11,6 @@ print('''
    ┏┳┓┏┓┏┓┳┳┓  ┏┓┏┓┏┓
     ┃ ┣ ┣┫┃┃┃  ┣┓┣┓┣┫
     ┻ ┗┛┛┗┛ ┗  ┗┛┗┛┗┛
+
+Cool art thing by Nathan Keidel
 ''')
