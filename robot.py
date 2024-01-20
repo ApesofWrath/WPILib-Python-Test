@@ -1,15 +1,22 @@
+from extramodules.debugmsgs import debugMsg, successMsg, errorMsg # Colorfull messages that we can use
+
 # Import custom modules
 try:
-    from extramodules.debugmsgs import debugMsg, successMsg, errorMsg # Colorfull messages that we can use
     from components.swervemodule import SwerveModule
-    from components.drivetrain import SwerveDrive
-
-    # Print debug message that all robot modules were imported successfully
-    successMsg('Custom modules imported')
-
+    # Print debug message that all "swervemodule" modules were imported successfully
+    successMsg('components.swervemodule: import SwerveModule')
 except Exception as e: 
     # If imports fail, print an error message
-    errorMsg('Cound not import custom modules:\n\n\t> ' + str(e))
+    errorMsg('Cound not import components.swervemodule: SwerveModule:\n\n\t> ' + str(e))
+
+try:
+    from components.drivetrain import SwerveDrive
+    # Print debug message that all "drivetrain" modules were imported successfully
+    successMsg('components.drivetrain: import SwerveDrive')
+except Exception as e:
+    # If imports fail, print an error message
+    errorMsg('Cound not import components.drivetrain: SwerveDrive:\n\n\t> ' + str(e))
+
 
 # Import robot modules
 try:

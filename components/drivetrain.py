@@ -3,7 +3,7 @@ import wpimath.kinematics as kinematics
 import navx, wpilib
 import constants
 
-class Drivetrain():
+class SwerveDrive():
 	def __init__(self): # Constructor, zeros the gyro for swervedrive
 		self.navX = navx.AHRS(wpilib.SerialPort.Port)
 		self.navX.ZeroYaw()
