@@ -136,3 +136,9 @@ tests/
 
 # Other
 test.ipynb
+
+# wpilib stuff
+.installer_config
+
+# visual studio stuff
+.vscode/

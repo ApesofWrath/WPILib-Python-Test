@@ -1,11 +1,7 @@
 from os import environ
 import logging
-import pint
-ureg = pint.UnitRegistry()
 from math import pi
-
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 # Get the name of the robot (may be moved to main.py)
 ROBOT_NAME = environ.get("Robot")
@@ -51,6 +47,11 @@ class DrivetrainConstants:
             REAR_LEFT = [2.285]
         else:
             raise Exception("Robot Name Invalid!")
+        
+    class Calculations:
+        kFinalDriveRatio = 6.75 * 360;
+        kFinalTurnRatio = (14.0 / 50.0) * (10.0 / 60.0)
+        kWheelCircumference = 2 * pi * 3.8 / 2;
 
     class Calculations:
         FINAL_DRIVE_RATIO = 6.75 * 360 #degrees
