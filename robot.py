@@ -1,5 +1,3 @@
-# TODO: use pyproject.toml (https://docs.wpilib.org/en/stable/docs/software/python/pyproject_toml.html)
-
 import wpilib
 import wpilib.drive
 import wpimath
