@@ -3,9 +3,10 @@ import wpilib.drive
 import wpimath
 import rev
 import magicbot
-
 import magicbot
 import wpilib
+
+# Import custom libraries
 from components.swervemodule import SwerveModule
 
 class Robot(magicbot.MagicRobot):
