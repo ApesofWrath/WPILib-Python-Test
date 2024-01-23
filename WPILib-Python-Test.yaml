@@ -2,6 +2,7 @@ name: WPILib-Python-Test
 channels:
   - defaults
 dependencies:
+  - python=3.12.1
   - bzip2=1.0.8=h620ffc9_4
   - ca-certificates=2023.12.12=hca03da5_0
   - expat=2.5.0=h313beb8_0
