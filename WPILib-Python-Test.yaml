@@ -50,4 +50,3 @@ dependencies:
       - tomli==2.0.1
       - typing-extensions==4.9.0
       - wpilib==2024.2.1.1
-prefix: C:\Users\Nathan Keidel\anaconda3\envs\test
