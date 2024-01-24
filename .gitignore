@@ -1,7 +1,3 @@
-# Ignore old files from "master [b1610ca4]" branch
-/master
-/master/*
-
 # Ignore compiled python code for robot
 /__pycache__
 
