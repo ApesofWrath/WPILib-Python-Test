@@ -1,6 +1,7 @@
 #
 # Use this configuration file to control what RobotPy packages are installed on your RoboRIO
-# Note: use provided conda environment via `conda env create -f WPILib-Python-Test.yaml`
+# Note: use provided conda environment via `conda env create -f environment<your-os-platform>.yaml`
+# Replace '<your-os-platform>' with 'windows' or 'unix' based on what OS you are on (unix = MacOs/Linux)
 #
 
 [tool.robotpy]
