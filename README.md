@@ -32,3 +32,8 @@ To setup this code on your computer for development, follow the steps below:
 - Build a new conda environment from the **MACOS SPECIFIC** environment YAML file:
   - `conda env create -f environmentunix.yaml`
   - `conda activate WPILib-Python-Test`
+
+## Running/Testing/Deploying
+
+Follow the most recent RobotPy documentation for running and testing robot code on your local machine, as they will probably update it faster than I can update this.
+- [RobotPy Documentation](https://robotpy.readthedocs.io/en/stable/)
