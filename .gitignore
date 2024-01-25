@@ -2,9 +2,9 @@
 /__pycache__
 
 components/__pycache__
-extramodules/__pycache__
 components/__pycache__/*
-extramodules/__pycache__/*
+modules/__pycache__
+modules/__pycache__/*
 
 # Ignore test results
 /tests
