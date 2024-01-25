@@ -1,6 +1,6 @@
 # WPILib-Python-Test
 
-Robot code for the FRC 2024 "Crescendo" competition.
+Robot code for the FRC 2024 "Crescendo" competition even though we probably won't be using it for 2024 (Womp-Womp)
 
 **External Software**
 
