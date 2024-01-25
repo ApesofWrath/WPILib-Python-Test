@@ -1,4 +1,5 @@
 from extramodules.debugmsgs import debugMsg, successMsg, errorMsg # Colorfull messages that we can use
+import yaml # Reads from '.yaml' files
 
 # Import custom modules
 try:
@@ -24,7 +25,6 @@ try:
     import wpilib.drive
     import wpimath
     import rev
-    import magicbot
     import magicbot
     import wpilib
 

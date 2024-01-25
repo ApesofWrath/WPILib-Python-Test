@@ -1,5 +1,10 @@
-# Ignore compiled python code for robot
+# Ignore compiled python code for robot & extra robot modules
 /__pycache__
+
+components/__pycache__
+extramodules/__pycache__
+components/__pycache__/*
+extramodules/__pycache__/*
 
 # Ignore test results
 /tests
