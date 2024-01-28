@@ -2,6 +2,8 @@ import wpimath.units as units
 import wpimath.kinematics as kinematics
 import navx, wpilib
 
+from swervemodule import SwerveModule
+
 class SwerveDrive():
 	def __init__(self): # Constructor, zeros the gyro for swervedrive
 		self.navX = navx.AHRS(wpilib.SerialPort.Port)
@@ -32,14 +34,17 @@ class SwerveDrive():
 		MOTOR_TURN_FRONT_LEFT_ID,
 		ENCODER_TURN_FRONT_LEFT_ID,
 		OFFSETS_FRONT_LEFT,
+
 		MOTOR_DRIVE_FRONT_RIGHT_ID,
 		MOTOR_TURN_FRONT_RIGHT_ID,
 		ENCODER_TURN_FRONT_RIGHT_ID,
 		OFFSETS_FRONT_RIGHT,
+
 		MOTOR_DRIVE_REAR_LEFT_ID,
 		MOTOR_TURN_REAR_LEFT_ID,
 		ENCODER_TURN_REAR_LEFT_ID,
 		OFFSETS_REAR_LEFT,
+
 		MOTOR_DRIVE_REAR_RIGHT_ID,
 		MOTOR_TURN_REAR_RIGHT_ID,
 		ENCODER_TURN_REAR_RIGHT_ID,
@@ -59,22 +64,22 @@ class SwerveDrive():
 		wpilib
 
 		# TODO: Find out wtf 'swervemodule is' (Probably the 'SwerveModule" class in swervemodule.py)
-		swerveModules = [swervemodule(MOTOR_DRIVE_FRONT_LEFT_ID, 
+		swerveModules = [SwerveModule(MOTOR_DRIVE_FRONT_LEFT_ID, 
 								MOTOR_TURN_FRONT_LEFT_ID, 
 								ENCODER_TURN_FRONT_LEFT_ID, 
 								OFFSETS_FRONT_LEFT), 
 
-				   swervemodule(MOTOR_DRIVE_FRONT_RIGHT_ID, 
+				   SwerveModule(MOTOR_DRIVE_FRONT_RIGHT_ID, 
 					MOTOR_TURN_FRONT_RIGHT_ID, 
 					ENCODER_TURN_FRONT_RIGHT_ID, 
 					OFFSETS_FRONT_RIGHT), 
 
-				   swervemodule(MOTOR_DRIVE_REAR_LEFT_ID, 
+				   SwerveModule(MOTOR_DRIVE_REAR_LEFT_ID, 
 					MOTOR_TURN_REAR_LEFT_ID, 
 					ENCODER_TURN_REAR_LEFT_ID, 
 					OFFSETS_REAR_LEFT), 
 
-				   swervemodule(MOTOR_DRIVE_REAR_RIGHT_ID,
+				   SwerveModule(MOTOR_DRIVE_REAR_RIGHT_ID,
 					MOTOR_TURN_REAR_RIGHT_ID,
 					ENCODER_TURN_REAR_RIGHT_ID, 
 					OFFSETS_REAR_RIGHT)]
