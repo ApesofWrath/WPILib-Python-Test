@@ -40,8 +40,7 @@ with open('constants.yaml', "r") as f:
     constants = yaml.safe_load(f)
 
 # Set the values from 'constants.yaml' as global variables so they can be declared in python
-globals().update(constants)
-debugMsg(f'Hostname: {Hostname}')
+debugMsg(f'Hostname: {constants['Hostname']}')
 
 
 # Create the robot class
