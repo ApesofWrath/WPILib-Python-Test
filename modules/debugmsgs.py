@@ -20,6 +20,6 @@ def successMsg(message):
 
 def errorMsg(message, error):
     if 'windows' in osName.lower():
-        print('ERROR:' + str(message) + '\n\n\t> ' + str(error))
+        print('ERROR: ' + str(message) + '\n\n\t> ' + str(error))
     else:
         print(colorama.Style.BRIGHT + colorama.Fore.RED + ('ERROR: ' + str(message) + '\n\n\t> ' + str(error)) + colorama.Fore.WHITE + colorama.Style.NORMAL)
