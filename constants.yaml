@@ -1,3 +1,4 @@
+TeamName: "Apes of Wrath"
 Hostname: 668 # Same number as in '.deploy_cfg'
 ControllerConstants:
   CONTROLLER_MAIN_ID: 0
@@ -49,11 +50,3 @@ Calculations:
 
   MOTOR_MAX_OUTPUT: 0.5
   MOTOR_DEADBAND: 0.1
-
-# CUSTOM CONFIGURATIONS:
-# CREATE A BODY WITH THE CONSTANTS NEEDED TO MAKE THE PYTHON CODE LOOK CLEANER
-# THIS WAY YOU CAN IMPORT A CUSTOM LIST OF ARGUMENTS IF IT IS NEEDED IN A CERTAIN METHOD
-# USING PYYAML, YOU WOULD IMPORT ONE OF THESE AS A LIST LIKE:
-  # list(config["VALUES"].values())
-
-# Add custom configuration here... 
