@@ -2,7 +2,7 @@ import wpimath.units as units
 import wpimath.kinematics as kinematics
 import navx, wpilib
 
-from swervemodule import SwerveModule
+from .swervemodule import SwerveModule
 
 class SwerveDrive():
 	def __init__(self): # Constructor, zeros the gyro for swervedrive
