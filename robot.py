@@ -21,10 +21,6 @@ except Exception as e:
 
 # Import robot modules
 try:
-    import wpilib
-    import wpilib.drive
-    import wpimath
-    import rev
     import magicbot
     import wpilib
 
@@ -42,12 +38,15 @@ with open('constants.yaml', "r") as f:
 # Set the values from 'constants.yaml' as global variables so they can be declared in python
 debugMsg(f'Hostname: {constants['Hostname']}')
 
+# Make a list of values from 'constants.yaml' to plug into arguments
+test = [constants["TeamName"], constants["Hostname"], constants["ControllerConstants"]["CONTROLLER_MAIN_ID"]]
+debugMsg(test)
 
 # Create the robot class
 class Robot(magicbot.MagicRobot):
 
     def createObjects(self):
-        
+        # Create motors and 
         pass
 
     def teleopInit(self):
