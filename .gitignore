@@ -1,10 +1,13 @@
 # Ignore compiled python code for robot & extra robot modules
 /__pycache__
 
+# Ignore byte-code from components, modules, and constants
 components/__pycache__
-components/__pycache__/*
 modules/__pycache__
-modules/__pycache__/*
+constants/__pycache__
 
 # Ignore test results
 /tests
+
+# Ignore log outputs
+/logs
