@@ -1,21 +1,32 @@
 import wpimath.units as units
 import wpimath.kinematics as kinematics
-import navx, wpilib
+import navx, rev, phoenix6 # phoenix6 = ctre library
+import wpilib
+import constants
 
 from .swervemodule import SwerveModule
 
-class SwerveDrive():
-	def __init__(self): # Constructor, zeros the gyro for swervedrive
+class Drivetrain():
+	def __init__(self, constants):
+		# 
+
+		# Each member variable represents a 'swervemodule.SwerveModule()' object
+		self.swerveFrontLeft = SwerveModule()
+		self.swerveFrontRight = SwerveModule()
+		self.swerveBackLeft = SwerveModule()
+		self.swerveBackright = SwerveModule()
+
 		self.navX = navx.AHRS(wpilib.SerialPort.Port)
 		self.navX.ZeroYaw()
+
+	
 		
-		'''
+'''
 		#TODO: Possibly define the variables below in __init__() instead of dedicating a whole method for it
 		self.xSpeed = xSpeed, # meters per second
 		self.ySpeed = ySpeed, # meters per second
 		self.zRot = zRot, # radians per second
 		self.relative = relative # boolean per second
-		'''
 	
 	def resetGyro(self): # Resets the gyro when function run
 		self.navX.ZeroYaw()
@@ -91,3 +102,4 @@ class SwerveDrive():
 			# For every swerve module, apply the proper state (i lined it up right i prommy)
 			swerveModules[i].SetDesiredState(moduleStates[i])
 		# TODO: smartDashboard or perhaps an alternative
+'''
