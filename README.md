@@ -1,5 +1,7 @@
 # WPILib-Python-Test
 
+_NOTE: This documentation is old and will be updated when the robot code is more stable_
+
 Robot code for the FRC 2024 "Crescendo" competition even though we probably won't be using it for 2024 (Womp-Womp)
 
 **External Software**
@@ -9,7 +11,7 @@ _It is recommended to develop using Windows 10/11, since as of 1/25/2024 there i
 - [WPILib 2024](https://github.com/wpilibsuite/allwpilib/releases/tag/v2024.2.1) (Not needed for python development)
 - [FRC Game Tools 2024](https://www.ni.com/en/support/downloads/drivers/download.frc-game-tools.html#500107) (Windows ONLY!)
 - [FRC Radio Configurstion Utility 2024](https://firstfrc.blob.core.windows.net/frc2024/Radio/FRC_Radio_Configuration_24_0_1.zip) (Windows ONLY!)
-  - [Israel Version](https://firstfrc.blob.core.windows.net/frc2024/Radio/FRC_Radio_Configuration_24_0_1_IL.zip) (עַם יִשְׂרָאֵל חַי)🇮🇱
+  - [Israel Version](https://firstfrc.blob.core.windows.net/frc2024/Radio/FRC_Radio_Configuration_24_0_1_IL.zip) (עַם יִשְׂרָאֵל חַי)
 - [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
   - NOTE: If Anaconda is already on your system, miniconda is not needed!
 ## Setup
