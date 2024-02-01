@@ -1,10 +1,10 @@
 # Literally just a big ASCII representation of our logo
 import os
 size = os.get_terminal_size()
+
 # Only print if the terminal window is big enough (So it does not format the logo weird)
 if size.columns >= 189:
-  if size.lines >= 52:
-    print('''                                                                                                                                           
+  print('''                                                                                                                                           
                                                                                          ███████
                                                      █████                            █████████████
                                                   ██       ████                   █████████████████                  ███████████
