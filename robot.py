@@ -71,6 +71,3 @@ class terrance(wpilib.TimedRobot):
 
         self.drivetrain.drive(xSpeed, ySpeed, rot, state, self.getPeriod()) # TODO: Add this method to 
                                                                             # 'components/drivetrain.py'
-
-if __name__ == '__main__':
-    wpilib.run(terrance)
