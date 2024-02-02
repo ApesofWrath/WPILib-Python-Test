@@ -1,5 +1,6 @@
 # Controlls the swerve module
-# Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/drivetrain.py
+# Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/swervemodule.py
+         #https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Translation2d.html
 # TODO: Import libraries (dont ask which ones nobody knows)
 import wpimath
 

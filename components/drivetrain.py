@@ -1,3 +1,5 @@
+# Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/drivetrain.py
+
 import wpimath.units as units
 import wpimath.kinematics as kinematics
 import navx, rev, phoenix6 # phoenix6 = ctre library
@@ -7,19 +9,44 @@ import constants
 from .swervemodule import SwerveModule
 
 class Drivetrain():
-	def __init__(self, constants):
-		# 
-
+	def __init__(self) -> None:
+		self.navx = navx.AHRS.create_spi()
+		#self.navX = navx._navx.AHRS(wpilib._wpilib.SerialPort.Port)
+		
 		# Each member variable represents a 'swervemodule.SwerveModule()' object
-		self.swerveFrontLeft = SwerveModule()
-		self.swerveFrontRight = SwerveModule()
-		self.swerveBackLeft = SwerveModule()
-		self.swerveBackright = SwerveModule()
+		self.swerveFrontLeft = SwerveModule(constants.MOTOR_DRIVE_FRONT_LEFT_ID,
+									  constants.MOTOR_TURN_FRONT_LEFT_ID,
+									  'TODO: Find out if we need driveEncoderChannel',
+									  constants.ENCODER_TURN_FRONT_LEFT_ID
+									  (constants.FRONT_LEFT, constants.FRONT_LEFT))
+		
+		self.swerveFrontRight = SwerveModule(constants.MOTOR_DRIVE_FRONT_RIGHT_ID,
+									  constants.MOTOR_TURN_FRONT_RIGHT_ID,
+									  'TODO: Find out if we need driveEncoderChannel',
+									  constants.ENCODER_TURN_FRONT_RIGHT_ID
+									  (constants.FRONT_RIGHT, -constants.FRONT_RIGHT))
 
-		self.navX = navx.AHRS(wpilib.SerialPort.Port)
-		self.navX.ZeroYaw()
+		self.swerveBackLeft = SwerveModule(constants.MOTOR_DRIVE_BACK_LEFT_ID,
+									  constants.MOTOR_TURN_BACK_LEFT_ID,
+									  'TODO: Find out if we need driveEncoderChannel',
+									  constants.ENCODER_TURN_BACK_LEFT_ID
+									  (constants.BACK_LEFT, -constants.BACK_LEFT))
+		
+		self.swerveBackright = SwerveModule(constants.MOTOR_DRIVE_BACK_RIGHT_ID,
+									  constants.MOTOR_TURN_BACK_RIGHT_ID,
+									  'TODO: Find out if we need driveEncoderChannel',
+									  constants.ENCODER_TURN_BACK_RIGHT_ID
+									  (constants.BACK_RIGHT, -constants.BACK_RIGHT))
 
-	
+		# Zero the navx gyro
+		def resetGyro(self):
+			self.navX.ZeroYaw()
+
+	def updateOdometry(self) -> None:
+		pass
+
+	def drive(self, xSpeed, ySpeed, rot, state, periodSeconds):
+		pass
 		
 '''
 		#TODO: Possibly define the variables below in __init__() instead of dedicating a whole method for it
