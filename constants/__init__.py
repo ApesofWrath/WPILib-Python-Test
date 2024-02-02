@@ -37,8 +37,8 @@ WHEEL_CIRCUMFERENCE = 11.9380521 # pi * 3.8 (inches)
 MODULE_MAX_SPEED = 16.3 # Feet Per Second
 CHASSIS_MAX_SPEED = 16.3 # Why is this one even here (MODULE_MAX_SPEED = CHASSIS_MAX_SPEED ???)
 
-MODULE_MAX_ANGULAR_VELOCITY = 12.5663706 # pi * 4  (radians per second)
-MODULE_MAX_ANGULAR_ACCELERATION = 25.1327412 # pi * 8/1  (radians per second^2)
+MODULE_MAX_ANGULAR_VELOCITY = 12.5663706 # pi * 4 (radians per second)
+MODULE_MAX_ANGULAR_ACCELERATION = 25.1327412 # pi * 8 (radians per second^2)
 
 MOTOR_MAX_OUTPUT = 0.5
 MOTOR_DEADBAND = 0.1
