@@ -10,4 +10,8 @@ class SwerveModule:
         self.turnMotorChannel = turnMotorChannel
         self.driveEncoderChannel = driveEncoderChannel
         self.turnEncoderChannel = turnEncoderChannel
+
+        # Location represents the distance (TODO: Find what unit of measurement for distance)
+        # From the middle of the robot to any of the swerve modules
+        # Check the links above more more explanation...
         self.location = wpimath.geometry.Translation2d(location[0], location[1])

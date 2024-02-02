@@ -1,7 +1,7 @@
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/drivetrain.py
 
-import wpimath.units as units
-import wpimath.kinematics as kinematics
+import wpimath.units
+import wpimath.kinematics
 import navx, rev, phoenix6 # phoenix6 = ctre library
 import wpilib
 import constants
@@ -37,6 +37,14 @@ class Drivetrain():
 									  'TODO: Find out if we need driveEncoderChannel',
 									  constants.ENCODER_TURN_BACK_RIGHT_ID
 									  (constants.BACK_RIGHT, -constants.BACK_RIGHT))
+		
+		# Set up kinematics based on the location of the swervedrives
+		self.kinematics = wpimath.kinematics.SwerveDrive4Kinematics(
+            self.swerveFrontLeft.location,
+            self.swerveFrontRight.location,
+            self.swerveBackLeft.location,
+            self.swerveBackright.location,
+        )
 
 		# Zero the navx gyro
 		def resetGyro(self):
