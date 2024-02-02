@@ -10,4 +10,4 @@ constants/__pycache__
 /tests
 
 # Ignore log outputs
-/logs
+/logs/*
