@@ -1,50 +1,49 @@
-from modules.debugmsgs import debugMsg, successMsg, errorMsg # Colorfull messages that we can use
+from modules.debugmsgs import * # Colorfull messages that we can use
 import constants # 'constants/__init__.py'
 
-try:
-    from components.drivetrain import Drivetrain
-    # Print debug message that all "drivetrain" modules were imported successfully
-    successMsg('components.drivetrain: import SwerveDrive')
-except Exception as e:
-    # If imports fail, print an error message
-    errorMsg('Cound not import components.drivetrain: SwerveDrive:', e)
-
+# Import drivetrain and check for errors in initialization
+from components.drivetrain import Drivetrain
 
 # Import robot modules
-try:
-    import wpilib
-    import wpilib.drive
+import wpilib
+import wpilib.drive
 
-    import wpimath
-    import wpimath.filter
-    import wpimath.controller
-    # Print debug message that all robot modules were imported successfully
-    successMsg('Robot modules imported')
-
-except Exception as e: 
-    # If imports fail, print an error message
-    errorMsg('Cound not import robot modules:', e)
+import wpimath
+import wpimath.filter
+import wpimath.controller
 
 # Create the robot class (his name is terrance)
 class terrance(wpilib.TimedRobot):
-    def robotInit(self) -> None:
+    def robotInit(self):
         self.drivetrain = Drivetrain()
 
-        self.controller = wpilib.XboxController(constants.CONTROLLER_MAIN_ID) # Member variable of our Xbox controller
+        try:
+            self.controller = wpilib.XboxController(constants.CONTROLLER_MAIN_ID) # Member variable of our Xbox controller
+            successMsg('Xbox controller initialized')
+        except Exception as e:
+            #errorMsg('Issue in initializing xbox controller:', e)
+            pass
 
         # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
         self.xSpeedLimiter = wpimath.filter.SlewRateLimiter(3)
         self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(3)
         self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
 
-    def autonomousPeriodic(self) -> None:
+    def autonomousInit(self): # Called only at the beginning of autonomous mode.
+        debugMsg('Entering autonomous mode...')
+        return super().autonomousInit()
+
+    def autonomousPeriodic(self): # Called every 20ms in autonomous mode.
         self.driveWithJoystick(False) # Disable joystick controll in autonomous mode
         self.drivetrain.updateOdometry() # TODO: Add this method to 'components/drivetrain.py'
 
-    def teleopPeriodic(self) -> None:
+    def teleopInit(self):
+        return super().teleopInit()
+
+    def teleopPeriodic(self):
         self.driveWithJoystick(True)
 
-    def driveWithJoystick(self, state) -> None:
+    def driveWithJoystick(self, state):
         # Get the x speed. We are inverting this because Xbox controllers return
         # negative values when we push forward.
         xSpeed = (
