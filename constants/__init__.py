@@ -1,4 +1,5 @@
 # Robot constants
+# TODO: Re-calculate/change values of constants to match new robot
 
 HOSTNAME = 668 # Same number as in '.deploy_cfg'
 
