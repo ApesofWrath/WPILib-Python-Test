@@ -1,3 +1,5 @@
+# NOTE: This module has no implementation on the robotRio, 
+# so dont have it in your robot code (use for logging output on your personal computer)
 import logging
 
 class Logger:
@@ -8,7 +10,7 @@ class Logger:
                             level=logging.DEBUG)
         
         # Write a header so people know where their log output starts and ends
-        logging.info('\n--- Start of Output ---\n')
+        logging.info('--- Start of Output ---\n')
 
     def write(self, message):
         # Check message for:
@@ -17,7 +19,6 @@ class Logger:
             # SUCCESS -> logging.info()
 
         if 'DEBUG:' in message:
-            print('debug')
             logging.debug(message)
 
         elif 'ERROR:' in message:
