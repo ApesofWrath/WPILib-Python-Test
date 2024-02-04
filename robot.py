@@ -37,7 +37,7 @@ class terrance(wpilib.TimedRobot):
         self.driveWithJoystick(False) # Disable joystick controll in autonomous mode
         self.drivetrain.updateOdometry() # TODO: Add this method to 'components/drivetrain.py'
 
-    def teleopInit(self):
+    def teleopInit(self): # Called only at the begining of teleop mode
         return super().teleopInit()
 
     def teleopPeriodic(self):
