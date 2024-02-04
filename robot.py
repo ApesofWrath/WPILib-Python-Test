@@ -30,14 +30,15 @@ class terrance(wpilib.TimedRobot):
         self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
 
     def autonomousInit(self): # Called only at the beginning of autonomous mode.
-        debugMsg('Entering autonomous mode...')
+        debugMsg('Entering autonomous mode')
         return super().autonomousInit()
 
     def autonomousPeriodic(self): # Called every 20ms in autonomous mode.
         self.driveWithJoystick(False) # Disable joystick controll in autonomous mode
-        self.drivetrain.updateOdometry() # TODO: Add this method to 'components/drivetrain.py'
+        self.drivetrain.updateOdometry()
 
     def teleopInit(self): # Called only at the begining of teleop mode
+        debugMsg('Entering tele-operated mode')
         return super().teleopInit()
 
     def teleopPeriodic(self):
@@ -68,5 +69,4 @@ class terrance(wpilib.TimedRobot):
                 wpimath.applyDeadband(self.controller.getRightX(), 0.02)) * constants.CHASSIS_MAX_SPEED
         )
 
-        self.drivetrain.drive(xSpeed, ySpeed, rot, state, self.getPeriod()) # TODO: Add this method to 
-                                                                            # 'components/drivetrain.py'
+        self.drivetrain.drive(xSpeed, ySpeed, rot, state, self.getPeriod())

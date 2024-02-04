@@ -16,7 +16,7 @@ class Drivetrain():
 			self.navx = navx.AHRS.create_spi()
 			successMsg('Navx initialized')
 		except Exception as e:
-			debugMsg('Issue initializing NavX', e)
+			errorMsg('Issue initializing NavX:', e)
 			pass
 		
 		# Each member variable represents a 'swervemodule.SwerveModule()' object
@@ -59,7 +59,11 @@ class Drivetrain():
         )
 
 		# Zero the NavX gyro
-		self.navX.ZeroYaw()
+		try:
+			self.navX.ZeroYaw()
+			print('NavX calibrated')
+		except Exception as e:
+			errorMsg('Issue calibrating NavX:',e)
 
 	def updateOdometry(self):
 		# Updates the field relative position of the robot
