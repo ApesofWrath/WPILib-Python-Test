@@ -15,6 +15,7 @@ import wpimath.controller
 # Create the robot class (his name is terrance)
 class terrance(wpilib.TimedRobot):
     def robotInit(self):
+        # Robot initialization
         self.drivetrain = Drivetrain()
 
         try:
@@ -29,20 +30,33 @@ class terrance(wpilib.TimedRobot):
         self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(3)
         self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
 
-    def autonomousInit(self): # Called only at the beginning of autonomous mode.
+    def autonomousInit(self): 
+        # Called only at the beginning of autonomous mode.
         debugMsg('Entering autonomous mode')
         return super().autonomousInit()
 
-    def autonomousPeriodic(self): # Called every 20ms in autonomous mode.
+    def autonomousPeriodic(self): 
+        # Called every 20ms in autonomous mode.
         self.driveWithJoystick(False) # Disable joystick controll in autonomous mode
         self.drivetrain.updateOdometry()
 
-    def teleopInit(self): # Called only at the begining of teleop mode
+    def teleopInit(self): 
+        # Called only at the begining of teleop mode
         debugMsg('Entering tele-operated mode')
         return super().teleopInit()
 
     def teleopPeriodic(self):
         self.driveWithJoystick(True)
+
+    def autonomousExit(self) -> None:
+        # Called when exiting autonomous mode
+        debugMsg('Exiting autonomous mode')
+        return super().autonomousExit()
+
+    def teleopExit(self) -> None:
+        # Called when exiting teleop mode
+        debugMsg('Exiting tele-operated mode')
+        return super().teleopExit()
 
     def driveWithJoystick(self, state):
         # Get the x speed. We are inverting this because Xbox controllers return
