@@ -1,8 +1,13 @@
 # Colors yay
-import os, sys, platform
+import os, sys, platform, traceback
 
 # Variables
 osName = platform.system()
+
+scriptFile = None
+def init(file):
+    global scriptFile
+    scriptFile = file
 
 # Functions for different output messages (they are colorfull so they are easy to spot)
 def debugMsg(message):
@@ -13,7 +18,16 @@ def successMsg(message):
     # Print message with different formatting based on operating system
     print('SUCCESS: ' + str(message))
 
-def errorMsg(message, error):
+def errorMsg(message, error, optionalScriptFile=None):
     # Print message with different formatting based on operating system
-    print('ERROR: ' + str(message) + '\n\n\t> ' + str(error))
+    if optionalScriptFile != None:
+        print('ERROR: ' 
+            + str(message) + '\n\n\t' 
+            + f'{optionalScriptFile}' + '\n\t> '+ 
+            str(error) + f' -> [Line: {error.__traceback__.tb_lineno}]')
+    else:
+        print('ERROR: ' 
+            + str(message) + '\n\n\t' 
+            + f'{scriptFile}' + '\n\t> '+ 
+            str(error) + f' -> [Line: {error.__traceback__.tb_lineno}]')
     sys.exit(1)
