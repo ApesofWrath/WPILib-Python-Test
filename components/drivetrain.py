@@ -14,7 +14,7 @@ class Drivetrain():
 		# Setup the gyro
 		try:
 			self.navx = navx.AHRS.create_spi()
-			#successMsg('Navx initialized')
+			successMsg('Navx initialized')
 		except Exception as e:
 			debugMsg('Issue initializing NavX', e)
 			pass
