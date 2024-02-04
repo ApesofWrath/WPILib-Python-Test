@@ -84,7 +84,7 @@ class SwerveModule:
 
     def getPosition(self):
         # Returns the location from the drive controller and the rotation from the turn encoder
-        return (
+        return wpimath.kinematics.SwerveModulePosition(
             (wpimath.units.meters(self.encoderDriveRelative.getPosition())),
             (wpimath.geometry.Rotation2d(
                 wpimath.angleModulus(
@@ -96,7 +96,7 @@ class SwerveModule:
     
     def getState(self):
         # Returns the speed (meters/second) from the drive encoder and the rotation from the turn encoder
-        return (
+        return wpimath.kinematics.SwerveModuleState(
             (wpimath.units.meters_per_second(self.encoderDriveRelative.getVelocity())),
             (wpimath.geometry.Rotation2d(
                 wpimath.angleModulus(wpimath.units.degrees(
@@ -106,3 +106,13 @@ class SwerveModule:
                 )
             )
         )
+    
+    def setDesiredState(self, desiredState):
+        # Sets desired state (speed & angle) of the swervemodule
+        encoderRotation = wpimath.geometry.Rotation2d(self.encoderTurnRelative.getPosition())
+
+        state = wpimath.kinematics.SwerveModuleState.optimize(
+            desiredState, encoderRotation
+        )
+
+        state.speed *= ((state.angle - encoderRotation).cos())
