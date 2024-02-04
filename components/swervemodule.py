@@ -1,7 +1,8 @@
 # Controlls the swerve module
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/swervemodule.py
          #https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Translation2d.html
-from modules.debugmsgs import *
+import modules.debugmsgs
+from modules.debugmsgs import successMsg, debugMsg, errorMsg
 
 import math, time
 import wpilib, rev, phoenix6
@@ -10,6 +11,9 @@ import wpimath.geometry
 import wpimath.controller
 import wpimath.trajectory
 import wpimath.units
+
+# Add __file__ to debugger
+modules.debugmsgs.init(__file__)
 
 class SwerveModule:
     def __init__(self, driveMotorChannel, turnMotorChannel, turnEncoderChannel, location):
@@ -52,8 +56,8 @@ class SwerveModule:
             self.motorTurn.setIdleMode(rev.CANSparkMax.IdleMode.kBrake)
 
             # Sets current limits for the swerve module motors
-            self.motorDrive.setSmartCurrentLimit(80.0)
-            self.motorTurn.setSmartCurrentLimit(20.0)
+            self.motorDrive.setSmartCurrentLimit(80)
+            self.motorTurn.setSmartCurrentLimit(20)
             successMsg('Motors configured')
         except Exception as e:
             errorMsg('Could not configure motors:',e)
@@ -61,11 +65,11 @@ class SwerveModule:
         # Set up relative encoders
         try:
             self.encoderDriveRelative = rev.SparkRelativeEncoder(
-                self.motorDrive.GetEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42))
+                self.motorDrive.getEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42))
                 # 42 = refresh rate of 'kHallSensor'
             
             self.encoderTurnRelative = rev.SparkRelativeEncoder(
-                self.motorTurn.GetEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42))
+                self.motorTurn.getEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42))
             successMsg('Relative encoders initialized')
         except Exception as e:
             errorMsg('Could not initialize relative encoders:',e)
@@ -161,7 +165,7 @@ class SwerveModule:
                 desiredState, encoderRotation
             )
         except Exception as e:
-            errorMsg('Could not get state [wpimath.kinematics.SwerveModuleState.optimise(...]:',e)
+            errorMsg('Could not get state:',e)
 
         state.speed *= ((state.angle - encoderRotation).cos())
 
