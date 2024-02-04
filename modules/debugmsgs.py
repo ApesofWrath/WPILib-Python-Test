@@ -1,5 +1,5 @@
 # Colors yay
-import os, platform
+import os, sys, platform
 
 # Variables
 osName = platform.system()
@@ -16,3 +16,4 @@ def successMsg(message):
 def errorMsg(message, error):
     # Print message with different formatting based on operating system
     print('ERROR: ' + str(message) + '\n\n\t> ' + str(error))
+    sys.exit(1)
