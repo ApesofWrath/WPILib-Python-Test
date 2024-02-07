@@ -79,6 +79,7 @@ class Drivetrain():
             ),
         )
 
+	# Drives the robot based on the imput from the xbox controller
 	def drive(self, xSpeed, ySpeed, rot, fieldRelative, periodSeconds):
 		swerveModuleStates = self.kinematics.toSwerveModuleStates(
             wpimath.kinematics.ChassisSpeeds.discretize(
