@@ -17,9 +17,6 @@ modules.debugmsgs.init(__file__)
 
 class SwerveModule:
     def __init__(self, driveMotorChannel, turnMotorChannel, turnEncoderChannel, location):
-        self.driveMotorChannel = driveMotorChannel
-        self.turnMotorChannel = turnMotorChannel
-        self.turnEncoderChannel = turnEncoderChannel
 
         # Location represents the distance (TODO: Find what unit of measurement for distance)
         # From the middle of the robot to any of the swerve modules
@@ -29,7 +26,7 @@ class SwerveModule:
         try:
             self.absoluteEncoder = phoenix6.hardware.CANcoder(turnEncoderChannel) #TODO: Find what 'CANBus' is
             successMsg('Absolute encoder initialized')
-            time.sleep(5) # Give some time for phoenix6 to initialize
+            #time.sleep(5) # Give some time for phoenix6 to initialize
         except Exception as e:
             errorMsg('Could not initialize absolute encoder:',e)
 
@@ -64,12 +61,22 @@ class SwerveModule:
 
         # Set up relative encoders
         try:
+            self.encoderDriveRelative = self.motorDrive.getEncoder(
+                    rev.SparkRelativeEncoder.Type.kHallSensor, 42
+            )
+
+            # 42 = refresh rate of 'kHallSensor'
+            '''
             self.encoderDriveRelative = rev.SparkRelativeEncoder(
-                self.motorDrive.getEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42))
+                self.motorDrive.getEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42)
+                    )
                 # 42 = refresh rate of 'kHallSensor'
+            '''
             
-            self.encoderTurnRelative = rev.SparkRelativeEncoder(
-                self.motorTurn.getEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42))
+            self.encoderTurnRelative = self.motorTurn.getEncoder(
+                    rev.SparkRelativeEncoder.Type.kHallSensor, 42
+            )
+
             successMsg('Relative encoders initialized')
         except Exception as e:
             errorMsg('Could not initialize relative encoders:',e)
@@ -79,16 +86,16 @@ class SwerveModule:
             self.encoderDriveRelative.setPositionConversionFactor(0.0508 * 2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)))
             self.encoderDriveRelative.setVelocityConversionFactor(0.0508 * (2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))) / 60.0)
 
-            self.encoderTurnRelative.SetPositionConversionFactor(2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0)))
-            self.encoderTurnRelative.SetVelocityConversionFactor((2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0))) / 60.0)
+            self.encoderTurnRelative.setPositionConversionFactor(2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0)))
+            self.encoderTurnRelative.setVelocityConversionFactor((2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0))) / 60.0)
             successMsg('Relative encoders configured')
         except Exception as e:
             errorMsg('Could not configure relative encoders:',e)
 
         # Set up PID constrollers
         try:
-            self.controllerDrive = rev.SparkPIDController(self.driveMotor.getPIDController())
-            self.controllerTurn = rev.SparkPIDController(self.motorTurn.getPIDController())
+            self.controllerDrive = self.motorDrive.getPIDController()
+            self.controllerTurn = self.motorTurn.getPIDController()
             successMsg('Obtained PID controllers')
         except Exception as e:
             errorMsg('Could not obtain PID controllers:',e)
@@ -103,8 +110,8 @@ class SwerveModule:
             self.controllerDrive.setP(0.01)
             self.controllerDrive.setI(0)
             self.controllerDrive.setD(0)
-            self.controllerDrive.SetFF(1.0/73.0)
-            self.controllerDrive.SetOutputRange(-1.0, 1.0)
+            self.controllerDrive.setFF(1.0/73.0)
+            self.controllerDrive.setOutputRange(-1.0, 1.0)
 
             self.controllerTurn.setP(0.015)
             self.controllerTurn.setI(0)
@@ -119,15 +126,11 @@ class SwerveModule:
 
     def getPosition(self):
         try:
-            # Returns the location from the drive controller and the rotation from the turn encoder
             return wpimath.kinematics.SwerveModulePosition(
-                (wpimath.units.meters(self.encoderDriveRelative.getPosition())),
+                wpimath.units.meters(self.encoderDriveRelative.getPosition()), 
 
-                (wpimath.geometry.Rotation2d(
-                    wpimath.angleModulus(
-                        wpimath.units.degrees(float(self.absoluteEncoder.get_absolute_position())  *360.0)
-                            )
-                        )
+                wpimath.geometry.Rotation2d(
+                    wpimath.angleModulus(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0)
                     )
                 )
         except Exception as e:
@@ -137,14 +140,10 @@ class SwerveModule:
         try:
             # Returns the speed (meters/second) from the drive encoder and the rotation from the turn encoder
             return wpimath.kinematics.SwerveModuleState(
-                (wpimath.units.meters_per_second(self.encoderDriveRelative.getVelocity())), # Speed of the drive motor
+                wpimath.units.meters_per_second(self.encoderDriveRelative.getVelocity()), # Speed of the drive motor
 
-                (wpimath.geometry.Rotation2d(
-                    wpimath.angleModulus(wpimath.units.degrees(
-                        float(self.absoluteEncoder.get_absolute_position() * 360.0) # Angle of rotation
-                            )
-                        )
-                    )
+                wpimath.geometry.Rotation2d(
+                    wpimath.angleModulus(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0) # Angle of rotation
                 )
             )
         except Exception as e:
@@ -155,11 +154,12 @@ class SwerveModule:
         try:
             encoderRotation = wpimath.geometry.Rotation2d(
                 wpimath.units.degrees(
-                    float(self.absoluteEncoder.get_absolute_position()) * 360.0)
+                    float(self.absoluteEncoder.get_absolute_position().value_as_double) * 360.0)
                 )
         except Exception as e:
             errorMsg('Could not get encoder rotation:',e)
 
+        # Get the currect state of the swervemodule
         try:
             state = wpimath.kinematics.SwerveModuleState.optimize(
                 desiredState, encoderRotation
@@ -167,8 +167,10 @@ class SwerveModule:
         except Exception as e:
             errorMsg('Could not get state:',e)
 
-        state.speed *= ((state.angle - encoderRotation).cos())
+        state.speed *= ((state.angle - encoderRotation).cos()) # IDK check robotpy examples in swervedrive
+        targetAngle = state.angle.degrees() # Target angle of the swervemodule
 
+        # Get the target motor speed
         try:
             targetMotorSpeed = wpimath.units.radians_per_second(
                 state.speed * wpimath.units.radians(2*3.14159) #TODO: Ask if I should use 'radians' or 'radiansToDegrees'
@@ -176,15 +178,13 @@ class SwerveModule:
         except Exception as e:
             errorMsg('Could not get target motor speed:',e)
 
-        targetAngle = state.angle.degrees()
-
         try:
             self.controllerDrive.setReference(targetMotorSpeed, rev.CANSparkMax.ControlType.kVelocity)
         except Exception as e:
             errorMsg('Could not set reference to drive controller:',e)
         
         try:
-            self.encoderTurnRelative.setPosition(float(self.absoluteEncoder.get_absolute_position())*360.0)
+            self.encoderTurnRelative.setPosition(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0)
         except Exception as e:
             errorMsg('Could not set position to relative turn encoder:',e)
 
