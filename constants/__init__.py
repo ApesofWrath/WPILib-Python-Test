@@ -6,6 +6,7 @@ HOSTNAME = 668 # Same number as in '.deploy_cfg'
 # ControllerConstants
 CONTROLLER_MAIN_ID = 0
 CONTROLLER_AUX_ID = 1
+CONTROLLER_RATE_LIMIT = 3 # Sorta like sensitivity
 
 # DrivetrainConstants
 MOTOR_DRIVE_FRONT_LEFT_ID = 2

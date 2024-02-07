@@ -26,9 +26,11 @@ class terrance(wpilib.TimedRobot):
             pass
 
         # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-        self.xSpeedLimiter = wpimath.filter.SlewRateLimiter(3)
-        self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(3)
-        self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
+        self.xSpeedLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
+        self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
+        self.rotLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
+
+        return super().robotInit()
 
     def autonomousInit(self): 
         # Called only at the beginning of autonomous mode.
