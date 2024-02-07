@@ -9,9 +9,9 @@ from modules.debugmsgs import successMsg, debugMsg, errorMsg
 
 from .swervemodule import SwerveModule
 
+# Load constants from the json file
 import json
-
-with open("..\\constants.json") as jsonf:
+with open('constants.json') as jsonf:
 	constants = json.load(jsonf)
 	jsonf.close()
 
@@ -27,25 +27,29 @@ class Drivetrain():
 			pass
 		
 		# Each member variable represents a 'swervemodule.SwerveModule()' object
-		self.swerveFrontLeft = SwerveModule(constants.MOTOR_DRIVE_FRONT_LEFT_ID,
-									  constants.MOTOR_TURN_FRONT_LEFT_ID,
-									  constants.ENCODER_TURN_FRONT_LEFT_ID,
-									  (constants.FRONT_LEFT, constants.FRONT_LEFT))
+		self.swerveFrontLeft = SwerveModule(constants['MOTOR_DRIVE_FRONT_LEFT_ID'],
+									  constants['MOTOR_TURN_FRONT_LEFT_ID'],
+									  constants['ENCODER_TURN_FRONT_LEFT_ID'],
+									  (constants['FRONT_LEFT'], constants['FRONT_LEFT'])
+								)
 		
-		self.swerveFrontRight = SwerveModule(constants.MOTOR_DRIVE_FRONT_RIGHT_ID,
-									  constants.MOTOR_TURN_FRONT_RIGHT_ID,
-									  constants.ENCODER_TURN_FRONT_RIGHT_ID,
-									  (constants.FRONT_RIGHT, -constants.FRONT_RIGHT))
+		self.swerveFrontRight = SwerveModule(constants['MOTOR_DRIVE_FRONT_RIGHT_ID'],
+									  constants['MOTOR_TURN_FRONT_RIGHT_ID'],
+									  constants['ENCODER_TURN_FRONT_RIGHT_ID'],
+									  (constants['FRONT_RIGHT'], -constants['FRONT_RIGHT'])
+								)
 
-		self.swerveBackLeft = SwerveModule(constants.MOTOR_DRIVE_REAR_LEFT_ID,
-									  constants.MOTOR_TURN_REAR_LEFT_ID,
-									  constants.ENCODER_TURN_REAR_LEFT_ID,
-									  (constants.REAR_LEFT, -constants.REAR_LEFT))
+		self.swerveBackLeft = SwerveModule(constants['MOTOR_DRIVE_REAR_LEFT_ID'],
+									  constants['MOTOR_TURN_REAR_LEFT_ID'],
+									  constants['ENCODER_TURN_REAR_LEFT_ID'],
+									  (constants['REAR_LEFT'], -constants['REAR_LEFT'])
+								)
 		
-		self.swerveBackRight = SwerveModule(constants.MOTOR_DRIVE_REAR_RIGHT_ID,
-									  constants.MOTOR_TURN_REAR_RIGHT_ID,
-									  constants.ENCODER_TURN_REAR_RIGHT_ID,
-									  (constants.REAR_RIGHT, -constants.REAR_RIGHT))
+		self.swerveBackRight = SwerveModule(constants['MOTOR_DRIVE_REAR_RIGHT_ID'],
+									  constants['MOTOR_TURN_REAR_RIGHT_ID'],
+									  constants['ENCODER_TURN_REAR_RIGHT_ID'],
+									  (constants['REAR_RIGHT'], -constants['REAR_RIGHT'])
+								)
 		
 		self.kinematics = wpimath.kinematics.SwerveDrive4Kinematics(
             self.swerveFrontLeft.location,
@@ -99,7 +103,7 @@ class Drivetrain():
             )
         )
 		wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            swerveModuleStates, constants.MODULE_MAX_SPEED
+            swerveModuleStates, constants['MODULE_MAX_SPEED']
         )
 		self.swerveFrontLeft.setDesiredState(swerveModuleStates[0])
 		self.swerveFrontRight.setDesiredState(swerveModuleStates[1])

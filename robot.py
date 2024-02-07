@@ -11,7 +11,9 @@ import wpimath
 import wpimath.filter
 import wpimath.controller
 
-with open("..\\constants.json") as jsonf:
+# Load constants from the json file
+import json
+with open('constants.json') as jsonf:
 	constants = json.load(jsonf)
 	jsonf.close()
 
@@ -22,24 +24,24 @@ class terrance(wpilib.TimedRobot):
         self.drivetrain = Drivetrain()
 
         try:
-            self.controller = wpilib.XboxController(constants.CONTROLLER_MAIN_ID) # Member variable of our Xbox controller
+            self.controller = wpilib.XboxController(constants['CONTROLLER_MAIN_ID']) # Member variable of our Xbox controller
             successMsg('Xbox controller initialized')
         except Exception as e:
-            #errorMsg('Issue in initializing xbox controller:', e)
+            errorMsg('Issue in initializing xbox controller:', e)
             pass
 
         # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-        self.xSpeedLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
-        self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
-        self.rotLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
+        self.xSpeedLimiter = wpimath.filter.SlewRateLimiter(constants['CONTROLLER_RATE_LIMIT'])
+        self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(constants['CONTROLLER_RATE_LIMIT'])
+        self.rotLimiter = wpimath.filter.SlewRateLimiter(constants['CONTROLLER_RATE_LIMIT'])
 
         return super().robotInit()
     
-    def robotPeriodic(self) -> None:
+    def robotPeriodic(self):
         # TODO: Add functionality
         return super().robotPeriodic()
     
-    def disabledPeriodic(self) -> None:
+    def disabledPeriodic(self):
         # TODO: Add functionality
         return super().disabledPeriodic()
 
@@ -52,6 +54,7 @@ class terrance(wpilib.TimedRobot):
         # Called every 20ms in autonomous mode.
         self.driveWithJoystick(False) # Disable joystick controll in autonomous mode
         self.drivetrain.updateOdometry()
+        return super().autonomousPeriodic()
 
     def teleopInit(self): 
         # Called only at the begining of teleop mode
@@ -60,13 +63,14 @@ class terrance(wpilib.TimedRobot):
 
     def teleopPeriodic(self):
         self.driveWithJoystick(True)
+        return super().teleopPeriodic
 
-    def autonomousExit(self) -> None:
+    def autonomousExit(self):
         # Called when exiting autonomous mode
         debugMsg('Exiting autonomous mode')
         return super().autonomousExit()
 
-    def teleopExit(self) -> None:
+    def teleopExit(self):
         # Called when exiting teleop mode
         debugMsg('Exiting tele-operated mode')
         return super().teleopExit()
@@ -76,7 +80,7 @@ class terrance(wpilib.TimedRobot):
         # negative values when we push forward.
         xSpeed = (
             -self.xSpeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftY(), 0.02)) * constants.CHASSIS_MAX_SPEED
+                wpimath.applyDeadband(self.controller.getLeftY(), 0.02)) * constants['CHASSIS_MAX_SPEED']
         )
 
         # Get the y speed or sideways/strafe speed. We are inverting this because
@@ -84,7 +88,7 @@ class terrance(wpilib.TimedRobot):
         # return positive values when you pull to the right by default.
         ySpeed = (
             -self.ySpeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftX(), 0.02)) * constants.CHASSIS_MAX_SPEED
+                wpimath.applyDeadband(self.controller.getLeftX(), 0.02)) * constants['CHASSIS_MAX_SPEED']
         )
 
         # Get the rate of angular rotation. We are inverting this because we want a
@@ -93,7 +97,7 @@ class terrance(wpilib.TimedRobot):
         # the right by default.
         rot = (
             -self.rotLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getRightX(), 0.02)) * constants.CHASSIS_MAX_SPEED
+                wpimath.applyDeadband(self.controller.getRightX(), 0.02)) * constants['CHASSIS_MAX_SPEED']
         )
 
         self.drivetrain.drive(xSpeed, ySpeed, rot, state, self.getPeriod())
