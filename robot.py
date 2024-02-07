@@ -1,5 +1,4 @@
 from modules.debugmsgs import * # Colorfull messages that we can use
-import constants # 'constants/__init__.py'
 
 # Import drivetrain and check for errors in initialization
 from components.drivetrain import Drivetrain
@@ -11,6 +10,10 @@ import wpilib.drive
 import wpimath
 import wpimath.filter
 import wpimath.controller
+
+with open("..\\constants.json") as jsonf:
+	constants = json.load(jsonf)
+	jsonf.close()
 
 # Create the robot class (his name is terrance)
 class terrance(wpilib.TimedRobot):

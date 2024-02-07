@@ -1,6 +1,6 @@
 {
 	"//": "Comments comment on the next line",
-	"//": "TODO: convert the robot code to draw from this file instead of constants/__init__.py",
+	"//": "TODO: test converted robot code",
 	"//": "TODO: convert 'heading sections' into nested data structure",
 	"//": "TODO: find a better way to get comments in json (not yaml. i said better.)",
 	"//": "TODO: Re-calculate/change values of constants to match new robot (and add entries in wiki to document them)",

@@ -4,11 +4,16 @@ import wpilib
 import wpimath.units
 import wpimath.kinematics
 import navx, rev, phoenix6 # phoenix6 = ctre library
-import constants
 
 from modules.debugmsgs import successMsg, debugMsg, errorMsg
 
 from .swervemodule import SwerveModule
+
+import json
+
+with open("..\\constants.json") as jsonf:
+	constants = json.load(jsonf)
+	jsonf.close()
 
 class Drivetrain():
 	def __init__(self):
