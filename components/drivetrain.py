@@ -15,7 +15,7 @@ class Drivetrain():
 		# Setup the gyro
 		try:
 			self.navx = navx.AHRS.create_spi()
-			successMsg('Navx initialized')
+			debugMsg(f'Navx: {self.navx.isConnected}')
 		except Exception as e:
 			errorMsg('Issue initializing NavX:',e,__file__) # We have to declare file since the global file 
 														    # in drivetrain.py is overiding the global file in swervemodule.oy
@@ -62,7 +62,7 @@ class Drivetrain():
 
 		# Zero the NavX gyro
 		try:
-			self.navX.ZeroYaw()
+			self.navx.zeroYaw()
 			successMsg('NavX calibrated')
 		except Exception as e:
 			errorMsg('Issue calibrating NavX:',e,__file__)
