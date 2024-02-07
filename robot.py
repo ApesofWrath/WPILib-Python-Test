@@ -31,6 +31,14 @@ class terrance(wpilib.TimedRobot):
         self.rotLimiter = wpimath.filter.SlewRateLimiter(constants.CONTROLLER_RATE_LIMIT)
 
         return super().robotInit()
+    
+    def robotPeriodic(self) -> None:
+        # TODO: Add functionality
+        return super().robotPeriodic()
+    
+    def disabledPeriodic(self) -> None:
+        # TODO: Add functionality
+        return super().disabledPeriodic()
 
     def autonomousInit(self): 
         # Called only at the beginning of autonomous mode.
