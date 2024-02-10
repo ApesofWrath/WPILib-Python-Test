@@ -28,4 +28,6 @@ class Logger:
             logging.info(message)
 
         else:
-            print(f'''Logger could not find a logging level in the provided message:\n\t--> {message}''')
+            print(f'''Logger could not find a logging level in the provided message:\n\t--> {message}
+Defaulting to logging level DEBUG''')
+            logging.debug(message)

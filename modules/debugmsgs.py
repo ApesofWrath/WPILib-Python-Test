@@ -1,9 +1,6 @@
 # Colors yay
 import os, sys, platform, traceback
 
-# Variables
-osName = platform.system()
-
 scriptFile = None
 def init(file):
     global scriptFile
