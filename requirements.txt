@@ -1,0 +1,5 @@
+robotpy
+robotpy-rev
+robotpy-ctre
+robotpy-navx
+numpy
