@@ -1,15 +1,13 @@
-from modules.debugmsgs import * # Colorfull messages that we can use
+from extras.debugmsgs import * # Formatted messages used for debugging
 
-# Import drivetrain and check for errors in initialization
 from components.drivetrain import Drivetrain
+from components.periphierals import XboxController
 
 # Import robot modules
 import wpilib
-import wpilib.drive
 
 import wpimath
 import wpimath.filter
-import wpimath.controller
 
 # Load constants from the json file
 import json
@@ -21,20 +19,17 @@ with open('constants.json') as jsonf:
 class terrance(wpilib.TimedRobot):
     def robotInit(self):
         # Robot initialization
+        debugMsg('Terance')
         self.drivetrain = Drivetrain()
 
         try:
-            self.controller = wpilib.XboxController(constants['CONTROLLER_MAIN_ID']) # Member variable of our Xbox controller
+            self.controller = XboxController(globals())
             successMsg('Xbox controller initialized')
         except Exception as e:
-            errorMsg('Issue in initializing xbox controller:', e)
+            errorMsg('Issue in initializing xbox controller:', e, __file__)
             pass
 
-        # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-        self.xSpeedLimiter = wpimath.filter.SlewRateLimiter(constants['CONTROLLER_RATE_LIMIT'])
-        self.ySpeedLimiter = wpimath.filter.SlewRateLimiter(constants['CONTROLLER_RATE_LIMIT'])
-        self.rotLimiter = wpimath.filter.SlewRateLimiter(constants['CONTROLLER_RATE_LIMIT'])
-
+        self.controller.executeMacros()
         return super().robotInit()
     
     def robotPeriodic(self):
@@ -76,28 +71,5 @@ class terrance(wpilib.TimedRobot):
         return super().teleopExit()
 
     def driveWithJoystick(self, state):
-        # Get the x speed. We are inverting this because Xbox controllers return
-        # negative values when we push forward.
-        xSpeed = (
-            -self.xSpeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftY(), 0.02)) * constants['CHASSIS_MAX_SPEED']
-        )
-
-        # Get the y speed or sideways/strafe speed. We are inverting this because
-        # we want a positive value when we pull to the left. Xbox controllers
-        # return positive values when you pull to the right by default.
-        ySpeed = (
-            -self.ySpeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftX(), 0.02)) * constants['CHASSIS_MAX_SPEED']
-        )
-
-        # Get the rate of angular rotation. We are inverting this because we want a
-        # positive value when we pull to the left (remember, CCW is positive in
-        # mathematics). Xbox controllers return positive values when you pull to
-        # the right by default.
-        rot = (
-            -self.rotLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getRightX(), 0.02)) * constants['CHASSIS_MAX_SPEED']
-        )
-
+        xSpeed, ySpeed, rot = self.controller.getSwerveValues()
         self.drivetrain.drive(xSpeed, ySpeed, rot, state, self.getPeriod())
