@@ -68,8 +68,9 @@ class XboxController():
     def executeMacros(self):
         # Use boolean indexing to execute functions for pressed buttons
         trueValues = np.where(self.values == False)[0]
-        for index in trueValues:
-            self.callFunctionByName(self.valuesFucntions[index])
+
+        # Run indexed values through a list comprehension to execute macros
+        [self.callFunctionByName(self.valuesFucntions[index]) for index in trueValues]
 
     # Returns calculated values from xbox controller input to appropriate swervedrive values
     def getSwerveValues(self):
