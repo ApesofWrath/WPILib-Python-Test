@@ -1,11 +1,10 @@
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/drivetrain.py
-
-import wpilib
 import wpimath.units
 import wpimath.kinematics
-import navx, rev, phoenix6 # phoenix6 = ctre library
 
-from modules.debugmsgs import successMsg, debugMsg, errorMsg
+import navx
+
+from extras.debugmsgs import *
 
 from .swervemodule import SwerveModule
 
@@ -20,36 +19,39 @@ class Drivetrain():
 		# Setup the gyro
 		try:
 			self.navx = navx.AHRS.create_spi()
-			debugMsg(f'Navx: {self.navx.isConnected}')
 		except Exception as e:
 			errorMsg('Issue initializing NavX:',e,__file__) # We have to declare file since the global file 
 														    # in drivetrain.py is overiding the global file in swervemodule.oy
 			pass
 		
 		# Each member variable represents a 'swervemodule.SwerveModule()' object
-		self.swerveFrontLeft = SwerveModule(constants['MOTOR_DRIVE_FRONT_LEFT_ID'],
-									  constants['MOTOR_TURN_FRONT_LEFT_ID'],
-									  constants['ENCODER_TURN_FRONT_LEFT_ID'],
-									  (constants['FRONT_LEFT'], constants['FRONT_LEFT'])
-								)
+		self.swerveFrontLeft = SwerveModule(
+			constants['MOTOR_CONSTANTS']['MOTOR_DRIVE_FRONT_LEFT_ID'],
+			constants['MOTOR_CONSTANTS']['MOTOR_TURN_FRONT_LEFT_ID'],
+			constants['MOTOR_CONSTANTS']['ENCODER_TURN_FRONT_LEFT_ID'],
+			(constants['OFFSETS']['FRONT_LEFT'], constants['OFFSETS']['FRONT_LEFT'])
+		)
 		
-		self.swerveFrontRight = SwerveModule(constants['MOTOR_DRIVE_FRONT_RIGHT_ID'],
-									  constants['MOTOR_TURN_FRONT_RIGHT_ID'],
-									  constants['ENCODER_TURN_FRONT_RIGHT_ID'],
-									  (constants['FRONT_RIGHT'], -constants['FRONT_RIGHT'])
-								)
+		self.swerveFrontRight = SwerveModule(
+			constants['MOTOR_CONSTANTS']['MOTOR_DRIVE_FRONT_RIGHT_ID'],
+			constants['MOTOR_CONSTANTS']['MOTOR_TURN_FRONT_RIGHT_ID'],
+			constants['MOTOR_CONSTANTS']['ENCODER_TURN_FRONT_RIGHT_ID'],
+			(constants['OFFSETS']['FRONT_RIGHT'], -constants['OFFSETS']['FRONT_RIGHT'])
+		)
 
-		self.swerveBackLeft = SwerveModule(constants['MOTOR_DRIVE_REAR_LEFT_ID'],
-									  constants['MOTOR_TURN_REAR_LEFT_ID'],
-									  constants['ENCODER_TURN_REAR_LEFT_ID'],
-									  (constants['REAR_LEFT'], -constants['REAR_LEFT'])
-								)
+		self.swerveBackLeft = SwerveModule(
+			constants['MOTOR_CONSTANTS']['MOTOR_DRIVE_REAR_LEFT_ID'],
+			constants['MOTOR_CONSTANTS']['MOTOR_TURN_REAR_LEFT_ID'],
+			constants['MOTOR_CONSTANTS']['ENCODER_TURN_REAR_LEFT_ID'],
+			(constants['OFFSETS']['REAR_LEFT'], -constants['OFFSETS']['REAR_LEFT'])
+		)
 		
-		self.swerveBackRight = SwerveModule(constants['MOTOR_DRIVE_REAR_RIGHT_ID'],
-									  constants['MOTOR_TURN_REAR_RIGHT_ID'],
-									  constants['ENCODER_TURN_REAR_RIGHT_ID'],
-									  (constants['REAR_RIGHT'], -constants['REAR_RIGHT'])
-								)
+		self.swerveBackRight = SwerveModule(
+			constants['MOTOR_CONSTANTS']['MOTOR_DRIVE_REAR_RIGHT_ID'],
+			constants['MOTOR_CONSTANTS']['MOTOR_TURN_REAR_RIGHT_ID'],
+			constants['MOTOR_CONSTANTS']['ENCODER_TURN_REAR_RIGHT_ID'],
+			(constants['OFFSETS']['REAR_RIGHT'], -constants['OFFSETS']['REAR_RIGHT'])
+		)
 		
 		self.kinematics = wpimath.kinematics.SwerveDrive4Kinematics(
             self.swerveFrontLeft.location,
@@ -103,7 +105,7 @@ class Drivetrain():
             )
         )
 		wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            swerveModuleStates, constants['MODULE_MAX_SPEED']
+            swerveModuleStates, constants['CALCULATIONS']['MODULE_MAX_SPEED']
         )
 		self.swerveFrontLeft.setDesiredState(swerveModuleStates[0])
 		self.swerveFrontRight.setDesiredState(swerveModuleStates[1])
