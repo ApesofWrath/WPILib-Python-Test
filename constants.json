@@ -1,60 +1,65 @@
 {
-	"//": "Comments comment on the next line",
-	"//": "TODO: convert 'heading sections' into nested data structure",
-	"//": "TODO: find a better way to get comments in json (not yaml. i said better.)",
 	"//": "TODO: Re-calculate/change values of constants to match new robot (and add entries in wiki to document them)",
 
-	"//": "Same number as in '.deploy_cfg'",
 	"HOSTNAME": 668,
 
-	"#1": "ControllerConstants",
-	"CONTROLLER_MAIN_ID": 0,
-	"CONTROLLER_AUX_ID": 1,
-	"//": "Sorta like sensitivity",
-	"CONTROLLER_RATE_LIMIT": 3,
+	"CONTROLLER_CONSTANTS": {
+	
+		"CONTROLLER_MAIN_ID": 0,
+		"CONTROLLER_AUX_ID": 1,
+		"CONTROLLER_RATE_LIMIT": 3,
 
-	"#2": "DrivetrainConstants",
-	"MOTOR_DRIVE_FRONT_LEFT_ID": 2,
-	"MOTOR_TURN_FRONT_LEFT_ID": 6,
-	"ENCODER_TURN_FRONT_LEFT_ID": 8,
+		"MACROS": {
+			"A": "add_function name",
+			"B": "add_function name",
+			"X": "add_function name",
+			"Y": "add_function name",
+			"L_BUMPER": "add_function name",
+			"R_BUMPER": "add_function name",
+			"L_STICK": "add_function name",
+			"R_STICK": "add_function name"
+		}
+	},
 
-	"MOTOR_DRIVE_FRONT_RIGHT_ID": 26,
-	"MOTOR_TURN_FRONT_RIGHT_ID": 4,
-	"//": "(Old name: ENCODER_TURN_FRONT_LEFT_ID: 10)",
-	"ENCODER_TURN_FRONT_RIGHT_ID": 10,
+	"MOTOR_CONSTANTS": {
 
-	"MOTOR_DRIVE_REAR_LEFT_ID": 3,
-	"MOTOR_TURN_REAR_LEFT_ID": 7,
-	"ENCODER_TURN_REAR_LEFT_ID": 9,
+		"MOTOR_DRIVE_FRONT_LEFT_ID": 2,
+		"MOTOR_TURN_FRONT_LEFT_ID": 6,
+		"ENCODER_TURN_FRONT_LEFT_ID": 8,
 
-	"MOTOR_DRIVE_REAR_RIGHT_ID": 1,
-	"MOTOR_TURN_REAR_RIGHT_ID": 5,
-	"ENCODER_TURN_REAR_RIGHT_ID": 11,
+		"MOTOR_DRIVE_FRONT_RIGHT_ID": 26,
+		"MOTOR_TURN_FRONT_RIGHT_ID": 4,
+		"ENCODER_TURN_FRONT_RIGHT_ID": 10,
 
-	"#3": "Offsets",
-	"FRONT_RIGHT": -40.429,
-	"REAR_RIGHT": 66.181,
-	"FRONT_LEFT": -94.921,
-	"REAR_LEFT": -1.142,
+		"MOTOR_DRIVE_REAR_LEFT_ID": 3,
+		"MOTOR_TURN_REAR_LEFT_ID": 7,
+		"ENCODER_TURN_REAR_LEFT_ID": 9,
 
-	"#4": "Calculations",
-	"//": "6.75 * 360 (degrees)",
-	"FINAL_DRIVE_RATIO": 2430,
-	"//": "(14.0 / 50.0) * (10.0 / 60.0)",
-	"FINAL_TURN_RATIO": 0.0466666667,
-	"//": "pi * 3.8 (inches)",
-	"WHEEL_CIRCUMFERENCE": 11.9380521,
+		"MOTOR_DRIVE_REAR_RIGHT_ID": 1,
+		"MOTOR_TURN_REAR_RIGHT_ID": 5,
+		"ENCODER_TURN_REAR_RIGHT_ID": 11
+	},
 
-	"//": "Feet Per Second",
-	"MODULE_MAX_SPEED": 16.3,
-	"//": "Why is this one even here (MODULE_MAX_SPEED = CHASSIS_MAX_SPEED ???)",
-	"CHASSIS_MAX_SPEED": 16.3,
+	"OFFSETS": {
 
-	"//": "pi * 4 (radians per second)",
-	"MODULE_MAX_ANGULAR_VELOCITY": 12.5663706,
-	"//": "pi * 8 (radians per second^2)",
-	"MODULE_MAX_ANGULAR_ACCELERATION": 25.1327412,
+		"FRONT_RIGHT": -40.429,
+		"REAR_RIGHT": 66.181,
+		"FRONT_LEFT": -94.921,
+		"REAR_LEFT": -1.142
+	},
 
-	"MOTOR_MAX_OUTPUT": 0.5,
-	"MOTOR_DEADBAND": 0.1
+	"CALCULATIONS": {
+
+		"FINAL_DRIVE_RATIO": 2430,
+		"FINAL_TURN_RATIO": 0.0466666667,
+		"WHEEL_CIRCUMFERENCE": 11.9380521,
+		"MODULE_MAX_SPEED": 16.3,
+		"CHASSIS_MAX_SPEED": 16.3,
+
+		"MODULE_MAX_ANGULAR_VELOCITY": 12.5663706,
+		"MODULE_MAX_ANGULAR_ACCELERATION": 25.1327412,
+
+		"MOTOR_MAX_OUTPUT": 0.5,
+		"MOTOR_DEADBAND": 0.1
+	}
 }
