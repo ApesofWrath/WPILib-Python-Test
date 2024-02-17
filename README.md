@@ -18,24 +18,21 @@ _It is recommended to develop using Windows 10/11, since as of 1/25/2024 there i
 
 To setup this code on your computer for development, follow the steps below:
 
-**Windows**
+**Windows/MacOS/Unix/GNU**
 - Make sure all software is downloaded and installed (check "External software")
 - Clone the repository
 - Open **Anaconda Powershell Prompt** and navigate to the parent directory in which the repository is stored on your local machine (NOTE: You will need to use Unix commands like `cd` to navigate in the Anaconda Powershell Prompt)
-- Build a new conda environment from the **WINDOWS SPECIFIC** environment YAML file for windows:
-  - `conda env create -f environmentwindows.yaml`
-  - `conda activate WPILib-Python-Test`
-
-**MacOS/Unix/GNU**
-- Optionally download WPILib 2024, just know it is not needed for python development
-- Download and install miniconda (SKIP this step if you already have anaconda installed on your Mac)
-- Clone the repository
-- Open **Terminal** and navigate to the parent directory in which the repository is stored on your local machine
-- Build a new conda environment from the **MACOS SPECIFIC** environment YAML file:
-  - `conda env create -f environmentunix.yaml`
-  - `conda activate WPILib-Python-Test`
+- Build a new conda environment using the commands below:
+  - `conda env create -n WPILib`
+  - `conda install pip`
+  - `pip install robotpy`
+  - `robotpy sync`
 
 ## Running/Testing/Deploying
 
-Follow the most recent RobotPy documentation for running and testing robot code on your local machine, as they will probably update it faster than I can update this.
+You can customize what specific tests you want to run in tests/pyfrc_test.py. (localed in the working dir. of your repository)
+
+To run tests, go the the working directory of your robot code in anaconda powershell and run `clear; robotpy test`
+
+If this does not work, follow the most recent RobotPy documentation for running and testing robot code on your local machine, as they will probably update it faster than I can update this README.
 - [RobotPy Documentation](https://robotpy.readthedocs.io/en/stable/)
