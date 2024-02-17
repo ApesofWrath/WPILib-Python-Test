@@ -1,19 +1,16 @@
 # Controlls the swerve module
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/swervemodule.py
          #https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Translation2d.html
-import modules.debugmsgs
-from modules.debugmsgs import successMsg, debugMsg, errorMsg
+import extras.debugmsgs
+from extras.debugmsgs import *
 
-import math, time
-import wpilib, rev, phoenix6
 import wpimath.kinematics
 import wpimath.geometry
 import wpimath.controller
 import wpimath.trajectory
 import wpimath.units
 
-# Add __file__ to debugger
-modules.debugmsgs.init(__file__)
+import rev, phoenix6
 
 class SwerveModule:
     def __init__(self, driveMotorChannel, turnMotorChannel, turnEncoderChannel, location):
@@ -25,19 +22,17 @@ class SwerveModule:
         # Set up the turn (absolute) encoder
         try:
             self.absoluteEncoder = phoenix6.hardware.CANcoder(turnEncoderChannel) #TODO: Find what 'CANBus' is
-            successMsg('Absolute encoder initialized')
             #time.sleep(5) # Give some time for phoenix6 to initialize
         except Exception as e:
-            errorMsg('Could not initialize absolute encoder:',e)
+            errorMsg('Could not initialize absolute encoder:',e,__file__)
 
         # Set up the drive motor (motor that moves the robot in a direction)
         # and the turn motor (motor that turns the drive motor to change the direction of the robot)
         try:
             self.motorDrive = rev.CANSparkMax(driveMotorChannel, rev.CANSparkMax.MotorType.kBrushless)
             self.motorTurn = rev.CANSparkMax(turnMotorChannel, rev.CANSparkMax.MotorType.kBrushless)
-            successMsg('Motors initialized')
         except Exception as e:
-            errorMsg('Could not initialize motors [rev.CANSparkMax]:',e)
+            errorMsg('Could not initialize motors [rev.CANSparkMax]:',e,__file__)
 
         # Resets the swerve module motors and encoders to factory settings
         try:
@@ -55,31 +50,21 @@ class SwerveModule:
             # Sets current limits for the swerve module motors
             self.motorDrive.setSmartCurrentLimit(80)
             self.motorTurn.setSmartCurrentLimit(20)
-            successMsg('Motors configured')
         except Exception as e:
-            errorMsg('Could not configure motors:',e)
+            errorMsg('Could not configure motors:',e,__file__)
 
         # Set up relative encoders
         try:
             self.encoderDriveRelative = self.motorDrive.getEncoder(
                     rev.SparkRelativeEncoder.Type.kHallSensor, 42
             )
-
-            # 42 = refresh rate of 'kHallSensor'
-            '''
-            self.encoderDriveRelative = rev.SparkRelativeEncoder(
-                self.motorDrive.getEncoder(rev.SparkRelativeEncoder.Type.kHallSensor, 42)
-                    )
-                # 42 = refresh rate of 'kHallSensor'
-            '''
             
             self.encoderTurnRelative = self.motorTurn.getEncoder(
                     rev.SparkRelativeEncoder.Type.kHallSensor, 42
             )
 
-            successMsg('Relative encoders initialized')
         except Exception as e:
-            errorMsg('Could not initialize relative encoders:',e)
+            errorMsg('Could not initialize relative encoders:',e,__file__)
             
         # Configure relative encoders (Velocity values for the external turn encoder and the built in drive encoder)
         try:
@@ -88,7 +73,6 @@ class SwerveModule:
 
             self.encoderTurnRelative.setPositionConversionFactor(2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0)))
             self.encoderTurnRelative.setVelocityConversionFactor((2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0))) / 60.0)
-            successMsg('Relative encoders configured')
         except Exception as e:
             errorMsg('Could not configure relative encoders:',e)
 
@@ -96,9 +80,8 @@ class SwerveModule:
         try:
             self.controllerDrive = self.motorDrive.getPIDController()
             self.controllerTurn = self.motorTurn.getPIDController()
-            successMsg('Obtained PID controllers')
         except Exception as e:
-            errorMsg('Could not obtain PID controllers:',e)
+            errorMsg('Could not obtain PID controllers:',e,__file__)
 
         # Sets the feedback device of the drive motor to the built in motor encoder 
         # and the feedback device of the turn motor to the external encoder
@@ -118,9 +101,8 @@ class SwerveModule:
             self.controllerTurn.setD(0.001)
             self.controllerTurn.setFF(0)
             self.controllerTurn.setOutputRange(-1.0, 1.0)
-            successMsg('PID controllers configured')
         except Exception as e:
-            errorMsg('Could not configure PID controllers:',e)
+            errorMsg('Could not configure PID controllers:',e,__file__)
 
         # TODO: Ask if I need to add code HERE that sets the starting positions of all parts of the swervemodule
 
@@ -134,7 +116,7 @@ class SwerveModule:
                     )
                 )
         except Exception as e:
-            errorMsg('Could not get position:',e)
+            errorMsg('Could not get position:',e,__file__)
     
     def getState(self):
         try:
@@ -147,7 +129,7 @@ class SwerveModule:
                 )
             )
         except Exception as e:
-            errorMsg('Could not get state:',e)
+            errorMsg('Could not get state:',e,__file__)
     
     def setDesiredState(self, desiredState):
         # Sets desired state (speed & angle) of the swervemodule
@@ -157,7 +139,7 @@ class SwerveModule:
                     float(self.absoluteEncoder.get_absolute_position().value_as_double) * 360.0)
                 )
         except Exception as e:
-            errorMsg('Could not get encoder rotation:',e)
+            errorMsg('Could not get encoder rotation:',e,__file__)
 
         # Get the currect state of the swervemodule
         try:
@@ -165,7 +147,7 @@ class SwerveModule:
                 desiredState, encoderRotation
             )
         except Exception as e:
-            errorMsg('Could not get state:',e)
+            errorMsg('Could not get state:',e,__file__)
 
         state.speed *= ((state.angle - encoderRotation).cos()) # IDK check robotpy examples in swervedrive
         targetAngle = state.angle.degrees() # Target angle of the swervemodule
@@ -176,19 +158,19 @@ class SwerveModule:
                 state.speed * wpimath.units.radians(2*3.14159) #TODO: Ask if I should use 'radians' or 'radiansToDegrees'
             )
         except Exception as e:
-            errorMsg('Could not get target motor speed:',e)
+            errorMsg('Could not get target motor speed:',e,__file__)
 
         try:
             self.controllerDrive.setReference(targetMotorSpeed, rev.CANSparkMax.ControlType.kVelocity)
         except Exception as e:
-            errorMsg('Could not set reference to drive controller:',e)
+            errorMsg('Could not set reference to drive controller:',e,__file__)
         
         try:
             self.encoderTurnRelative.setPosition(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0)
         except Exception as e:
-            errorMsg('Could not set position to relative turn encoder:',e)
+            errorMsg('Could not set position to relative turn encoder:',e,__file__)
 
         try:
             self.controllerTurn.setReference(float(targetAngle), rev.CANSparkMax.ControlType.kPosition)
         except Exception as e:
-            errorMsg('Could not set reference to turn controller:',e)
+            errorMsg('Could not set reference to turn controller:',e,__file__)
