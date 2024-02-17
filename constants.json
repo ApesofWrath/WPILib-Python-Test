@@ -10,34 +10,35 @@
 		"CONTROLLER_RATE_LIMIT": 3,
 
 		"MACROS": {
-			"A": "add_function name",
-			"B": "add_function name",
-			"X": "add_function name",
-			"Y": "add_function name",
-			"L_BUMPER": "add_function name",
-			"R_BUMPER": "add_function name",
-			"L_STICK": "add_function name",
-			"R_STICK": "add_function name"
+			"START": "zeroGyro",
+			"A": "add function name",
+			"B": "add function name",
+			"X": "add function name",
+			"Y": "add function name",
+			"L_BUMPER": "add function name",
+			"R_BUMPER": "add function name",
+			"L_STICK": "add function name",
+			"R_STICK": "add function name"
 		}
 	},
 
 	"MOTOR_CONSTANTS": {
 
-		"MOTOR_DRIVE_FRONT_LEFT_ID": 2,
+		"MOTOR_DRIVE_FRONT_LEFT_ID": 5,
 		"MOTOR_TURN_FRONT_LEFT_ID": 6,
-		"ENCODER_TURN_FRONT_LEFT_ID": 8,
+		"ENCODER_TURN_FRONT_LEFT_ID": 11,
 
-		"MOTOR_DRIVE_FRONT_RIGHT_ID": 26,
-		"MOTOR_TURN_FRONT_RIGHT_ID": 4,
-		"ENCODER_TURN_FRONT_RIGHT_ID": 10,
+		"MOTOR_DRIVE_FRONT_RIGHT_ID": 1,
+		"MOTOR_TURN_FRONT_RIGHT_ID": 2,
+		"ENCODER_TURN_FRONT_RIGHT_ID": 9,
 
-		"MOTOR_DRIVE_REAR_LEFT_ID": 3,
-		"MOTOR_TURN_REAR_LEFT_ID": 7,
-		"ENCODER_TURN_REAR_LEFT_ID": 9,
+		"MOTOR_DRIVE_REAR_LEFT_ID": 7,
+		"MOTOR_TURN_REAR_LEFT_ID": 8,
+		"ENCODER_TURN_REAR_LEFT_ID": 12,
 
-		"MOTOR_DRIVE_REAR_RIGHT_ID": 1,
-		"MOTOR_TURN_REAR_RIGHT_ID": 5,
-		"ENCODER_TURN_REAR_RIGHT_ID": 11
+		"MOTOR_DRIVE_REAR_RIGHT_ID": 3,
+		"MOTOR_TURN_REAR_RIGHT_ID": 4,
+		"ENCODER_TURN_REAR_RIGHT_ID": 10
 	},
 
 	"OFFSETS": {

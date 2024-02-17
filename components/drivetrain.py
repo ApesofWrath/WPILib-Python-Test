@@ -19,6 +19,7 @@ class Drivetrain():
 		# Setup the gyro
 		try:
 			self.navx = navx.AHRS.create_spi()
+			self.zeroGyro()
 		except Exception as e:
 			errorMsg('Issue initializing NavX:',e,__file__) # We have to declare file since the global file 
 														    # in drivetrain.py is overiding the global file in swervemodule.oy
@@ -71,10 +72,10 @@ class Drivetrain():
             ),
         )
 
+	def zeroGyro(self):
 		# Zero the NavX gyro
 		try:
 			self.navx.zeroYaw()
-			successMsg('NavX calibrated')
 		except Exception as e:
 			errorMsg('Issue calibrating NavX:',e,__file__)
 
@@ -98,6 +99,7 @@ class Drivetrain():
                     wpimath.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
                         xSpeed, ySpeed, rot, self.navx.getRotation2d()
                     )
+					
                     if fieldRelative
                     else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rot)
                 ),
