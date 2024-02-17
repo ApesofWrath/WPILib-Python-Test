@@ -3,7 +3,7 @@
 
 # Ignore byte-code from components, modules, and constants
 components/__pycache__
-modules/__pycache__
+extras/__pycache__
 
 # Ignore test results
 /tests
@@ -12,4 +12,4 @@ modules/__pycache__
 /logs
 
 # Ignore python environment directory
-/WPIEnv
+/.venv
