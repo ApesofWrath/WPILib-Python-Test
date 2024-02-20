@@ -1,5 +1,6 @@
 from extras.debugmsgs import * # Formatted messages used for debugging
 
+# Different components (components interact with hardware)
 from components.drivetrain import Drivetrain
 from components.periphierals import XboxController
 
