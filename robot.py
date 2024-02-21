@@ -61,7 +61,7 @@ class terrance(wpilib.TimedRobot):
         debugMsg('Entering autonomous mode')
 
         # Vibrate xbox controller to let driver know they are in auton mode
-        self.controller.controller.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.5)
+        self.controller.wpilibController.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.5)
 
     def autonomousPeriodic(self): 
         # Called every 20ms in autonomous mode.
@@ -74,7 +74,7 @@ class terrance(wpilib.TimedRobot):
         debugMsg('Entering tele-operated mode')
 
         # Stop vibrating xbox controller to let driver know they are in teleop mode
-        self.controller.controller.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.0)
+        self.controller.wpilibController.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.0)
 
     def teleopPeriodic(self):
         # Enable drive mode with joystick
