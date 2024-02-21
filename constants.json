@@ -3,6 +3,15 @@
 
 	"HOSTNAME": 668,
 
+	"EVENTS": {
+		"PERIODIC": false,
+		"TELEOP": false,
+		"AUTON": false,
+		"INTAKE": false,
+		"SHOOTING": false,
+		"CLIMBING": false
+	},
+
 	"CONTROLLER_CONSTANTS": {
 	
 		"CONTROLLER_MAIN_ID": 0,
@@ -11,12 +20,12 @@
 
 		"MACROS": {
 			"START": "zeroGyro",
-			"A": "add function name",
-			"B": "add function name",
-			"X": "add function name",
-			"Y": "add function name",
-			"L_BUMPER": "add function name",
-			"R_BUMPER": "add function name",
+			"A": "activateIntake",
+			"B": "activateShooter",
+			"X": "fireAmp",
+			"Y": "fireSpeaker",
+			"L_BUMPER": "slowDownSwerve",
+			"R_BUMPER": "resetSwerveSpeed",
 			"L_STICK": "add function name",
 			"R_STICK": "add function name"
 		}
