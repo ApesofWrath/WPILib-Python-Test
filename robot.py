@@ -4,13 +4,14 @@ from extras.debugmsgs import * # Formatted messages used for debugging
 from components.drivetrain import Drivetrain
 from components.periphierals import XboxController
 
+# Custom event manager class (for controller macros)
+from eventmanager.manager import Manager
+
 # Import robot modules
 import wpilib
 
 import wpimath
 import wpimath.filter
-
-import time
 
 # Load constants from the json file
 import json
@@ -30,11 +31,26 @@ class terrance(wpilib.TimedRobot):
             successMsg('Xbox controller initialized')
         except Exception as e:
             errorMsg('Issue in initializing xbox controller:', e, __file__)
+
+        # Create an event manager and link macros to their specific events
+        # IMPORTANT: Make sure specific macros do not execute in specific robot stages
+        self.eventManager = Manager()
+
+        self.eventManager.addMacrosToEvent('PERIODIC', 
+                                           ['zeroGyro', 
+                                            'slowDownSwerve',
+                                            'resetSwerveSpeed'])
+        
+        self.eventManager.addMacrosToEvent('TELEOP', 
+                                           ['zeroGyro', 
+                                            'slowDownSwerve',
+                                            'resetSwerveSpeed',
+                                            'activateIntake'])
     
     # Add proccesses that should always be running at all times here
     def robotPeriodic(self):
         # Execute macros based on controller state
-        self.controller.executeMacros()
+        self.controller.executeMacrosInEvent('PERIODIC')
     
     def disabledPeriodic(self):
         # TODO: Add functionality
@@ -61,7 +77,8 @@ class terrance(wpilib.TimedRobot):
         self.controller.controller.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.0)
 
     def teleopPeriodic(self):
-        # Enable drive mode with joysticl
+        # Enable drive mode with joystick
+        self.controller.getSwerveValues()
         self.driveWithJoystick(True)
 
     def autonomousExit(self):
@@ -74,15 +91,33 @@ class terrance(wpilib.TimedRobot):
 
     # Custom methos to drive with joystick
     def driveWithJoystick(self, state):
-        xSpeed, ySpeed, rot = self.controller.getSwerveValues()
-        self.drivetrain.drive(xSpeed, ySpeed, rot, state, self.getPeriod())
+        self.controller.getSwerveValues()
+        self.drivetrain.drive(self.controller.xSpeed, 
+                              self.controller.ySpeed, 
+                              self.controller.rot, state, 
+                              self.getPeriod())
 
-    # Below, add functions that will be bound to the macros (sort-of like command framework)
-    # TODO: In futre, re-implement with command2 framework
+    '''
+    
+    MACROS:
+        Below, add functions that can be linked to specific buttons 
+        on a compatible peripherial device
+    
+    '''
     def zeroGyro(self):
         self.drivetrain.navx.zeroYaw()
 
-    def toggleModes(self):
-        # If the robot is already in auton mode, disable it
-        # If the robot is in teleop mode, enable auton mode
+    def activateIntake(self):
+        pass
+
+    def activateShooter(self):
+        pass
+
+    def fireAmp(self):
+        pass
+
+    def slowDownSwerve(self):
+        pass
+
+    def resetSwerveSpeed(self):
         pass
