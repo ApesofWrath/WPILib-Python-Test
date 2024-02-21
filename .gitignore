@@ -4,6 +4,8 @@
 # Ignore byte-code from components, modules, and constants
 components/__pycache__
 extras/__pycache__
+eventmanager/__pycache__
+hardware/__pycache__
 
 # Ignore test results
 /tests
