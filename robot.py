@@ -44,8 +44,7 @@ class terrance(wpilib.TimedRobot):
         self.eventManager.addMacrosToEvent('TELEOP', 
                                            ['zeroGyro', 
                                             'slowDownSwerve',
-                                            'resetSwerveSpeed',
-                                            'activateIntake'])
+                                            'resetSwerveSpeed'])
     
     # Add proccesses that should always be running at all times here
     def robotPeriodic(self):
@@ -61,7 +60,7 @@ class terrance(wpilib.TimedRobot):
         debugMsg('Entering autonomous mode')
 
         # Vibrate xbox controller to let driver know they are in auton mode
-        self.controller.wpilibController.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.5)
+        self.controller.rumble(0.5)
 
     def autonomousPeriodic(self): 
         # Called every 20ms in autonomous mode.
@@ -74,8 +73,7 @@ class terrance(wpilib.TimedRobot):
         debugMsg('Entering tele-operated mode')
 
         # Stop vibrating xbox controller to let driver know they are in teleop mode
-        self.controller.wpilibController.setRumble(self.controller.controller.RumbleType.kBothRumble, 0.0)
-
+        self.controller.rumble(0.0)
     def teleopPeriodic(self):
         # Enable drive mode with joystick
         self.controller.getSwerveValues()
