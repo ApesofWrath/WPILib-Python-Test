@@ -1,8 +1,9 @@
 # Controlls the swerve module
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/swervemodule.py
-         #https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Translation2d.html
-import extras.debugmsgs
+# Stuck? https://robotpy.readthedocs.io/projects/wpimath/en/latest/wpimath.geometry/Translation2d.html
 from extras.debugmsgs import *
+
+from hardware.motors import CANSparkMax
 
 import wpimath.kinematics
 import wpimath.geometry
@@ -26,90 +27,40 @@ class SwerveModule:
         except Exception as e:
             errorMsg('Could not initialize absolute encoder:',e,__file__)
 
-        # Set up the drive motor (motor that moves the robot in a direction)
-        # and the turn motor (motor that turns the drive motor to change the direction of the robot)
         try:
-            self.motorDrive = rev.CANSparkMax(driveMotorChannel, rev.CANSparkMax.MotorType.kBrushless)
-            self.motorTurn = rev.CANSparkMax(turnMotorChannel, rev.CANSparkMax.MotorType.kBrushless)
+            # Set up the drive motor (motor that moves the robot in a direction)
+            # and the turn motor (motor that turns the drive motor to change the direction of the robot)
+            self.motorDrive = CANSparkMax(driveMotorChannel, 80)
+            self.motorTurn = CANSparkMax(turnMotorChannel, 20)
         except Exception as e:
             errorMsg('Could not initialize motors [rev.CANSparkMax]:',e,__file__)
 
-        # Resets the swerve module motors and encoders to factory settings
         try:
-            self.motorDrive.restoreFactoryDefaults(True)
-            self.motorTurn.restoreFactoryDefaults(True)
-
-            # Invert the motors
-            self.motorDrive.setInverted(True)
-            self.motorTurn.setInverted(True)
-
-            # Sets the idle mode of the swerve module motors to brake (Motors brake when not doing anything)
-            self.motorDrive.setIdleMode(rev.CANSparkMax.IdleMode.kBrake)
-            self.motorTurn.setIdleMode(rev.CANSparkMax.IdleMode.kBrake)
-
-            # Sets current limits for the swerve module motors
-            self.motorDrive.setSmartCurrentLimit(80)
-            self.motorTurn.setSmartCurrentLimit(20)
-        except Exception as e:
-            errorMsg('Could not configure motors:',e,__file__)
-
-        # Set up relative encoders
-        try:
-            self.encoderDriveRelative = self.motorDrive.getEncoder(
-                    rev.SparkRelativeEncoder.Type.kHallSensor, 42
-            )
-            
-            self.encoderTurnRelative = self.motorTurn.getEncoder(
-                    rev.SparkRelativeEncoder.Type.kHallSensor, 42
+            # Set and configure the relative encoders
+            self.motorDrive.setRelativeEncoder(
+                (0.0508 * 2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))),
+                (0.0508 * (2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))) / 60.0),
             )
 
+            self.motorTurn.setRelativeEncoder(
+                (2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0))),
+                (2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0)) / 60.0)
+            )
         except Exception as e:
-            errorMsg('Could not initialize relative encoders:',e,__file__)
-            
-        # Configure relative encoders (Velocity values for the external turn encoder and the built in drive encoder)
-        try:
-            self.encoderDriveRelative.setPositionConversionFactor(0.0508 * 2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)))
-            self.encoderDriveRelative.setVelocityConversionFactor(0.0508 * (2.0 * 3.141592653589 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0))) / 60.0)
+            errorMsg('Could not configure relative encoders:',e,__file__)
 
-            self.encoderTurnRelative.setPositionConversionFactor(2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0)))
-            self.encoderTurnRelative.setVelocityConversionFactor((2.0 * 3.141592653589 * ((14.0 / 50.0) * (10.0 / 60.0))) / 60.0)
-        except Exception as e:
-            errorMsg('Could not configure relative encoders:',e)
-
-        # Set up PID constrollers
         try:
-            self.controllerDrive = self.motorDrive.getPIDController()
-            self.controllerTurn = self.motorTurn.getPIDController()
+            # Set up PID constrollers
+            self.motorDrive.setPIDController(0.01, 0, 0, (1.0/73.0), [-1.0, 1.0])
+            self.motorTurn.setPIDController(0.015, 0, 0.001, 0, [-1.0, 1.0])
         except Exception as e:
             errorMsg('Could not obtain PID controllers:',e,__file__)
-
-        # Sets the feedback device of the drive motor to the built in motor encoder 
-        # and the feedback device of the turn motor to the external encoder
-        try:
-            self.controllerDrive.setFeedbackDevice(self.encoderDriveRelative)
-            self.controllerTurn.setFeedbackDevice(self.encoderTurnRelative)
-
-            # Configure PID for the controllers
-            self.controllerDrive.setP(0.01)
-            self.controllerDrive.setI(0)
-            self.controllerDrive.setD(0)
-            self.controllerDrive.setFF(1.0/73.0)
-            self.controllerDrive.setOutputRange(-1.0, 1.0)
-
-            self.controllerTurn.setP(0.015)
-            self.controllerTurn.setI(0)
-            self.controllerTurn.setD(0.001)
-            self.controllerTurn.setFF(0)
-            self.controllerTurn.setOutputRange(-1.0, 1.0)
-        except Exception as e:
-            errorMsg('Could not configure PID controllers:',e,__file__)
-
         # TODO: Ask if I need to add code HERE that sets the starting positions of all parts of the swervemodule
 
     def getPosition(self):
         try:
             return wpimath.kinematics.SwerveModulePosition(
-                wpimath.units.meters(self.encoderDriveRelative.getPosition()), 
+                wpimath.units.meters(self.motorDrive.relativeEncoder.getPosition()), 
 
                 wpimath.geometry.Rotation2d(
                     wpimath.angleModulus(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0)
@@ -122,7 +73,7 @@ class SwerveModule:
         try:
             # Returns the speed (meters/second) from the drive encoder and the rotation from the turn encoder
             return wpimath.kinematics.SwerveModuleState(
-                wpimath.units.meters_per_second(self.encoderDriveRelative.getVelocity()), # Speed of the drive motor
+                wpimath.units.meters_per_second(self.motorDrive.relativeEncoder.getVelocity()), # Speed of the drive motor
 
                 wpimath.geometry.Rotation2d(
                     wpimath.angleModulus(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0) # Angle of rotation
@@ -160,17 +111,20 @@ class SwerveModule:
         except Exception as e:
             errorMsg('Could not get target motor speed:',e,__file__)
 
+        # Set refrence to the drive motor's PID controller
         try:
-            self.controllerDrive.setReference(targetMotorSpeed, rev.CANSparkMax.ControlType.kVelocity)
+            self.motorDrive.PIDController.setReference(targetMotorSpeed, rev.CANSparkMax.ControlType.kVelocity)
         except Exception as e:
             errorMsg('Could not set reference to drive controller:',e,__file__)
         
+        # Set the position of the turn motor through the relative encoder
         try:
-            self.encoderTurnRelative.setPosition(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0)
+            self.motorTurn.relativeEncoder.setPosition(self.absoluteEncoder.get_absolute_position().value_as_double * 360.0)
         except Exception as e:
             errorMsg('Could not set position to relative turn encoder:',e,__file__)
 
+        # Set the reference to the turn motor's PId controller
         try:
-            self.controllerTurn.setReference(float(targetAngle), rev.CANSparkMax.ControlType.kPosition)
+            self.motorTurn.PIDController.setReference(float(targetAngle), rev.CANSparkMax.ControlType.kPosition)
         except Exception as e:
             errorMsg('Could not set reference to turn controller:',e,__file__)
