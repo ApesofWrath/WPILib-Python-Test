@@ -22,8 +22,9 @@ To setup this code on your computer for development, follow the steps below:
 - Make sure all software is downloaded and installed (check "External software")
 - Clone the repository
 - Open **Anaconda Powershell Prompt** and navigate to the parent directory in which the repository is stored on your local machine (NOTE: You will need to use Unix commands like `cd` to navigate in the Anaconda Powershell Prompt)
-- Build a new conda environment using the commands below:
+- Build a new conda environment for robotpy using the commands below:
   - `conda env create -n WPILib`
+  - `conda activate WPILib`
   - `conda install pip`
   - `pip install robotpy`
   - `robotpy sync`
