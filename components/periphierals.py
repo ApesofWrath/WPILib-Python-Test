@@ -71,7 +71,7 @@ class XboxController():
         # negative values when we push forward.
         self.xSpeed = (
             -self.xSpeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftX(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
+                wpimath.applyDeadband(self.wpilibController.getLeftX(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
         )
 
         # Get the y speed or sideways/strafe speed. We are inverting this because
@@ -79,7 +79,7 @@ class XboxController():
         # return positive values when you pull to the right by default.
         self.ySpeed = (
             -self.ySpeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftY(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
+                wpimath.applyDeadband(self.wpilibController.getLeftY(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
         )
 
         # Get the rate of angular rotation. We are inverting this because we want a
@@ -88,8 +88,11 @@ class XboxController():
         # the right by default.
         self.rot = (
             -self.rotLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getRightX(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
+                wpimath.applyDeadband(self.wpilibController.getRightX(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
         )
+
+    def rumble(self, intensity):
+        self.wpilibController.setRumble(self.wpilibController.RumbleType.kBothRumble, 0.0)
 
 class ButtonMatrix:
     pass #TODO: this
