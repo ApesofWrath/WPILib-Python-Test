@@ -88,7 +88,7 @@ class Drivetrain():
                 self.swerveFrontRight.getPosition(),
                 self.swerveBackLeft.getPosition(),
                 self.swerveBackRight.getPosition(),
-            ),
+            )
         )
 
 	# Drives the robot based on the imput from the xbox controller
@@ -103,12 +103,14 @@ class Drivetrain():
                     if fieldRelative
                     else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rot)
                 ),
-                periodSeconds,
+                periodSeconds
             )
         )
 		wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
             swerveModuleStates, constants['CALCULATIONS']['MODULE_MAX_SPEED']
         )
+
+		# Set the desired states to each swerve motor
 		self.swerveFrontLeft.setDesiredState(swerveModuleStates[0])
 		self.swerveFrontRight.setDesiredState(swerveModuleStates[1])
 		self.swerveBackLeft.setDesiredState(swerveModuleStates[2])
