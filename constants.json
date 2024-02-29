@@ -6,12 +6,9 @@
 	"EVENTS": {
 		"PERIODIC": false,
 		"TELEOP": false,
-		"AUTON": false,
-		"INTAKE": false,
-		"SHOOTING": false,
-		"CLIMBING": false
+		"AUTON": false
 	},
-
+	
 	"CONTROLLER_CONSTANTS": {
 	
 		"CONTROLLER_MAIN_ID": 0,

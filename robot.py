@@ -2,7 +2,7 @@ from extras.debugmsgs import * # Formatted messages used for debugging
 
 # Different components (components interact with hardware)
 from components.drivetrain import Drivetrain
-from components.periphierals import XboxController
+from hardware.periphierals import XboxController
 
 # Custom event manager class (for controller macros)
 from eventmanager.manager import Manager
@@ -37,11 +37,6 @@ class terrance(wpilib.TimedRobot):
         self.eventManager = Manager()
 
         self.eventManager.addMacrosToEvent('PERIODIC', 
-                                           ['zeroGyro', 
-                                            'slowDownSwerve',
-                                            'resetSwerveSpeed'])
-        
-        self.eventManager.addMacrosToEvent('TELEOP', 
                                            ['zeroGyro', 
                                             'slowDownSwerve',
                                             'resetSwerveSpeed'])
@@ -104,15 +99,6 @@ class terrance(wpilib.TimedRobot):
     '''
     def zeroGyro(self):
         self.drivetrain.navx.zeroYaw()
-
-    def activateIntake(self):
-        pass
-
-    def activateShooter(self):
-        pass
-
-    def fireAmp(self):
-        pass
 
     def slowDownSwerve(self):
         pass
