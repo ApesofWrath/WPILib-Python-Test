@@ -91,7 +91,7 @@ class XboxController():
                 wpimath.applyDeadband(self.wpilibController.getRightX(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
         )
 
-    def rumble(self, intensity):
+    def rumble(self, intensity): # Sets the vibration intensity of the xbox controller
         self.wpilibController.setRumble(self.wpilibController.RumbleType.kBothRumble, 0.0)
 
 class ButtonMatrix:
