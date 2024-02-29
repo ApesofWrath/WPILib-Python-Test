@@ -2,6 +2,7 @@
 from extras.debugmsgs import *
 
 import rev
+import phoenix6
 
 class CANSparkMax:
     def __init__(self, channel,
@@ -23,6 +24,7 @@ class CANSparkMax:
 
         # Encoder(s) which can be set to CANSparkMax
         self.relativeEncoder = None
+        self.alternateEncoder = None
 
         # Controller(s) which can be set to CANSparkMax
         self.PIDController = None
@@ -50,3 +52,52 @@ class CANSparkMax:
         self.PIDController.setD(D)
         self.PIDController.setFF(FF)
         self.PIDController.setOutputRange(outputRange[0], outputRange[1])
+
+class KrakenMotor:
+    def __init__(self,
+        channel,
+        canbus='',
+        velocity=0,
+        neutralMode=phoenix6.signals.NeutralModeValue.COAST,
+        enableStatorCurrentLimit=True,
+        statorCurrentLimit=25.0,
+        KP=0,
+        KI=0,
+        KD=0,
+        KV=0,
+        velocityWithSlot=0,
+        velocityWithEnableFOC=False):
+
+        # Initialize the motor with the channel and canbus
+        self.motor = phoenix6.hardware.TalonFX(channel, canbus)
+
+        # Initialize the velocity duty cycle
+        self.velocity = phoenix6.controls.VelocityDutyCycle(0)
+
+        # Initialize the configurators of the Kraken motor
+        self.outputConfig = phoenix6.configs.MotorOutputConfigs()
+        self.limitConfig = phoenix6.configs.CurrentLimitsConfigs()
+        self.slot0Config = phoenix6.configs.Slot0Configs()
+
+        # Configure Kraken settings
+        self.outputConfig.with_neutral_mode(neutralMode)
+
+        self.limitConfig.with_supply_current_limit_enable(enableStatorCurrentLimit)
+        self.limitConfig.with_stator_current_limit(statorCurrentLimit)
+
+        # Configure Kraken PID values
+        self.slot0Config.with_k_p(KP)
+        self.slot0Config.with_k_i(KI)
+        self.slot0Config.with_k_d(KD)
+        self.slot0Config.with_k_v(KV)
+
+        # Apply the configurators to the Kraken
+        self.motor.configurator.apply(self.outputConfig)
+        self.motor.configurator.apply(self.limitConfig)
+        self.motor.configurator.apply(self.slot0Config)
+
+
+
+    def linkTo(self, masterChannel, opposeMasterDirection):
+        # Sets the controlls of the motor equal to the controlls of another Kraken motor
+        self.motor.set_control(phoenix6.controls.Follower(masterChannel, opposeMasterDirection))
