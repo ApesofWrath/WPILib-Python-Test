@@ -1,12 +1,18 @@
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/drivetrain.py
 import wpimath.units
 import wpimath.kinematics
+from wpilib import TimedRobot
 
 import navx
 
+from .swervemodule import SwerveModule
+
 from extras.debugmsgs import *
 
-from .swervemodule import SwerveModule
+class seconds:
+	'''
+	# Does nothing, used for doumentation formatting
+	'''
 
 # Load constants from the json file
 import json
@@ -15,6 +21,11 @@ with open('constants.json') as jsonf:
 	jsonf.close()
 
 class Drivetrain():
+	'''
+	# Drivetrain
+
+	Class that controlls components of the drivetrain (anything that moves the robot forwards, backwards, and sideways)
+	'''
 	def __init__(self):
 		# Setup the gyro
 		try:
@@ -73,6 +84,9 @@ class Drivetrain():
         )
 
 	def zeroGyro(self):
+		'''
+		Re-calibrates the NavX gyroscope
+		'''
 		# Zero the NavX gyro
 		try:
 			self.navx.zeroYaw()
@@ -80,7 +94,10 @@ class Drivetrain():
 			errorMsg('Issue calibrating NavX:',e,__file__)
 
 	def updateOdometry(self):
-		# Updates the field relative position of the robot
+		'''
+		Updates the field relative position of the robot
+		'''
+		
 		self.odometry.update(
             self.navx.getRotation2d(),
             (
@@ -91,17 +108,19 @@ class Drivetrain():
             )
         )
 
-	# Drives the robot based on the imput from the xbox controller
-	def drive(self, xSpeed, ySpeed, rot, fieldRelative, periodSeconds):
+	def drive(self, xSpeed: float, ySpeed: float, rotation: float, fieldRelative: bool, periodSeconds: seconds):
+		'''
+		Drives the robot based on the imput from the xbox controller
+		'''
 		swerveModuleStates = self.kinematics.toSwerveModuleStates(
             wpimath.kinematics.ChassisSpeeds.discretize(
                 (
                     wpimath.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, rot, self.navx.getRotation2d()
+                        xSpeed, ySpeed, rotation, self.navx.getRotation2d()
                     )
 					
                     if fieldRelative
-                    else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rot)
+                    else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rotation)
                 ),
                 periodSeconds
             )

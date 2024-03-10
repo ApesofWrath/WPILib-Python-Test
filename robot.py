@@ -1,10 +1,8 @@
 from extras.debugmsgs import * # Formatted messages used for debugging
 
-# Different components (components interact with hardware)
 from components.drivetrain import Drivetrain
 from components.controller import XboxController
 
-# Import robot modules
 import wpilib
 
 # Load constants from the json file
@@ -83,7 +81,7 @@ class terrance(wpilib.TimedRobot):
     
     '''
     def zeroGyro(self):
-        self.drivetrain.navx.zeroYaw()
+        self.drivetrain.zeroGyro()
 
     def slowDownSwerve(self):
         pass

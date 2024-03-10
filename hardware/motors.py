@@ -5,12 +5,17 @@ import rev
 import phoenix6
 
 class CANSparkMax:
-    def __init__(self, channel,
-                smartCurrentLimit,
+    '''
+    # CANSparkMax
+    Class for configuring and setting up a CANSparkMax motor
+    '''
+    def __init__(self, 
+                channel: int,
+                smartCurrentLimit: int,
                 brushless = True,
-                restoreFactoryDefaults=True, 
-                setInverted=True, 
-                idleMode=rev.CANSparkMax.IdleMode.kBrake):
+                restoreFactoryDefaults = True, 
+                setInverted = True, 
+                idleMode = rev.CANSparkMax.IdleMode.kBrake):
         
         self.motor = rev.CANSparkMax(channel,
             rev.CANSparkMax.MotorType.kBrushless if brushless else rev.CANSparkMax.MotorType.kBrushed
@@ -29,7 +34,10 @@ class CANSparkMax:
         # Controller(s) which can be set to CANSparkMax
         self.PIDController = None
 
-    def setRelativeEncoder(self, positionConversionFactor, velocityConversionFactor):
+    def setRelativeEncoder(self, positionConversionFactor: float, velocityConversionFactor: float):
+        '''
+        Configures and sets up a relative encoder to the motor
+        '''
         self.relativeEncoder = self.motor.getEncoder(
                     rev.SparkRelativeEncoder.Type.kHallSensor, 42
         )
@@ -38,12 +46,13 @@ class CANSparkMax:
         self.relativeEncoder.setPositionConversionFactor(positionConversionFactor)
         self.relativeEncoder.setVelocityConversionFactor(velocityConversionFactor)
 
-    def setPIDController(self, P, I, D, FF, outputRange):
+    def setPIDController(self, P: float, I: float, D: float, FF: float, outputRange: float):
+        '''
+        Configures and sets up a PID controller to the motor
+        '''
         if self.relativeEncoder == None:
             errorMsg('Cannot create PID controller without a relative encoder being set',None)
 
-        # Sets the feedback device of the drive motor to the built in motor encoder 
-        # and the feedback device of the turn motor to the external encoder
         self.PIDController = self.motor.getPIDController()
         self.PIDController.setFeedbackDevice(self.relativeEncoder)
 
@@ -54,19 +63,23 @@ class CANSparkMax:
         self.PIDController.setOutputRange(outputRange[0], outputRange[1])
 
 class KrakenMotor:
+    '''
+    # KrakenMotor
+    Class for configuring and setting up a Kraken motor
+    '''
     def __init__(self,
-        channel,
-        canbus='',
-        velocity=0,
-        neutralMode=phoenix6.signals.NeutralModeValue.COAST,
-        enableStatorCurrentLimit=True,
-        statorCurrentLimit=25.0,
-        KP=0,
-        KI=0,
-        KD=0,
-        KV=0,
-        velocityWithSlot=0,
-        velocityWithEnableFOC=False):
+        channel: int,
+        canbus = '',
+        velocity = 0,
+        neutralMode = phoenix6.signals.NeutralModeValue.COAST,
+        enableStatorCurrentLimit = True,
+        statorCurrentLimit = 25.0,
+        KP = 0,
+        KI = 0,
+        KD = 0,
+        KV = 0,
+        velocityWithSlot = 0,
+        velocityWithEnableFOC = False):
 
         # Initialize the motor with the channel and canbus
         self.motor = phoenix6.hardware.TalonFX(channel, canbus)
@@ -96,8 +109,11 @@ class KrakenMotor:
         self.motor.configurator.apply(self.limitConfig)
         self.motor.configurator.apply(self.slot0Config)
 
+        self.velocity.with_slot(velocityWithSlot)
+        self.velocity.with_enable_foc(velocityWithEnableFOC)
 
-
-    def linkTo(self, masterChannel, opposeMasterDirection):
-        # Sets the controlls of the motor equal to the controlls of another Kraken motor
+    def linkTo(self, masterChannel: int, opposeMasterDirection: bool):
+        '''
+        Sets the controlls of the motor equal to the controlls of another Kraken motor
+        '''
         self.motor.set_control(phoenix6.controls.Follower(masterChannel, opposeMasterDirection))

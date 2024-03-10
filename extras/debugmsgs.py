@@ -7,16 +7,22 @@ def init(file):
     scriptFile = file
 
 # Functions for different output messages (they are colorfull so they are easy to spot)
-def debugMsg(message):
-    # Print message with different formatting based on operating system
+def debugMsg(message: str):
+    '''
+    Print message with different formatting based on operating system
+    '''
     print('DEBUG: ' + str(message))
 
-def successMsg(message):
-    # Print message with different formatting based on operating system
+def successMsg(message: str):
+    '''
+    Print message with different formatting based on operating system
+    '''
     print('SUCCESS: ' + str(message))
 
-def errorMsg(message, error, optionalScriptFile=None):
-    # Print message with different formatting based on operating system
+def errorMsg(message: str, error: Exception, optionalScriptFile=None):
+    '''
+    Print message with different formatting based on operating system
+    '''
     if optionalScriptFile != None:
         try:
             raise Exception('ERROR: ' 
