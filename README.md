@@ -34,9 +34,9 @@ To setup this code on your computer for development, follow the steps below:
 
 ## Running/Testing/Deploying
 
-You can customize what specific tests you want to run in tests/pyfrc_test.py. (localed in the working dir. of your repository)
+You can customize what specific tests you want to run in tests/pyfrc_test.py. (located in the directory of your repository)
 
 To run tests, go the the working directory of your robot code in anaconda powershell and run `clear; robotpy test`
 
-If this does not work, follow the most recent RobotPy documentation for running and testing robot code on your local machine, as they will probably update it faster than I can update this README.
+To whoever it may concern, I advise you to go follow the most recent RobotPy documentation for running and testing robot code on your local machine, as they will probably update it faster than I can update this README.
 - [RobotPy Documentation](https://robotpy.readthedocs.io/en/stable/)
