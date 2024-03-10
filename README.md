@@ -15,7 +15,7 @@ _It is recommended to develop using Windows 10/11, since as of 1/25/2024 there i
 - [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
   - NOTE: If Anaconda is already on your system, miniconda is not needed!
 
-__You can also use python's built in 'venv' library to create a virtual environment to test your code, but conda is a neater option IMO__
+_NOTE: You can also use python's built in 'venv' library to create a virtual environment to test your code, but conda is a neater option IMO_
 
 ## Setup
 
