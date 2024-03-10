@@ -1,4 +1,4 @@
-# Ignore compiled python code for robot & extra robot modules
+# Ignore  byte-code for robot & extra robot modules
 /__pycache__
 
 # Ignore byte-code from components, modules, and constants
@@ -6,12 +6,10 @@ components/__pycache__
 extras/__pycache__
 eventmanager/__pycache__
 hardware/__pycache__
+auton/__pycache__
 
-# Ignore test results
+# Ignore tests
 /tests
 
-# Ignore log outputs
-/logs
-
-# Ignore python environment directory
+# Ignore python virtual environment
 /.venv

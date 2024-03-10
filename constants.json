@@ -11,14 +11,14 @@
 
 		"MACROS": {
 			"START": "zeroGyro",
-			"A": "activateIntake",
-			"B": "activateShooter",
-			"X": "fireAmp",
-			"Y": "fireSpeaker",
-			"L_BUMPER": "slowDownSwerve",
-			"R_BUMPER": "resetSwerveSpeed",
-			"L_STICK": "add function name",
-			"R_STICK": "add function name"
+			"A": "",
+			"B": "",
+			"X": "",
+			"Y": "",
+			"L_BUMPER": "",
+			"R_BUMPER": "",
+			"L_STICK": "",
+			"R_STICK": ""
 		}
 	},
 
