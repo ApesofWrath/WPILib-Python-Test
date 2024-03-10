@@ -29,7 +29,7 @@ class terrance(wpilib.TimedRobot):
     # Add proccesses that should always be running at all times here
     def robotPeriodic(self):
         # Execute macros based on controller state
-        self.controller.executeMacros()
+        self.controller.executeMacros(['zeroGyro'])
     
     def disabledPeriodic(self):
         # TODO: Add functionality
