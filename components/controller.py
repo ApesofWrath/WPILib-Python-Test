@@ -13,7 +13,16 @@ with open('constants.json') as jsonf:
 	jsonf.close()
 
 class XboxController():
+    '''
+    # XboxController
+    Module which streamlines controll of an Xbox controller
+    '''
     def __init__(self, instance):
+        '''
+        Constructs the controller class
+
+        The 'instance' argument should be the name of the class of your robot
+        '''
         self.instance = instance # The instance should be the name of the class of your robot
 
         # Define our controller
@@ -45,28 +54,40 @@ class XboxController():
         # Eack key can be set in 'constants.json' to carry out a function in annother python script
         self.macroNames = [constants['CONTROLLER_CONSTANTS']['MACROS'][key] for key in ['START', 'A', 'B', 'X', 'Y', 'L_BUMPER', 'R_BUMPER', 'L_STICK', 'R_STICK']]
 
-        # Optionally add an event manager for more robust macro execution
-        self.eventManager = None
+
+    def executeMacros(self, macros: list): # Add this to the 'robotPeriodic()' method
+        '''
+        Use boolean indexing to execute functions for pressed buttons
+        '''
+
+        # Update array of values
+        self.values = np.array([
+            self.wpilibController.getStartButtonReleased(),
+            self.wpilibController.getAButtonReleased(),
+            self.wpilibController.getBButtonReleased(),
+            self.wpilibController.getXButtonReleased(),
+            self.wpilibController.getYButtonReleased(),
+            self.wpilibController.getLeftBumperReleased(),
+            self.wpilibController.getRightBumperReleased(),
+            self.wpilibController.getLeftStickButtonReleased(),
+            self.wpilibController.getRightStickButtonReleased()
+        ])
 
 
-    def executeMacrosInEvent(self, eventName): # Add this to the 'robotPeriodic()' method
-        # Use boolean indexing to execute functions for pressed buttons
         trueValues = np.where(self.values == True)[0]
 
-        # Run indexed values through a list comprehension to execute macros
-        for index in trueValues:
-             # Use 'getattr()' to dynamically call the macro (method) by name
-            macroToCall = getattr(self.instance, 
-                                  (self.eventManager.getEvent(eventName).avaliableMacros[index]), None)
+        for index in trueValues and self.macroNames[index] in macros:
+            macroToCall = getattr(self.instance, self.macroNames[index])
 
             if macroToCall and callable(macroToCall):
                 macroToCall()
             else:
                 debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
-            self.callFunctionByName(self.macroNames[index])
-            
-    # Returns calculated values from xbox controller input to appropriate swervedrive values
+        
     def getSwerveValues(self):
+        '''
+        Returns calculated values from xbox controller input to appropriate drivetrain values
+        '''
         # Get the x speed. We are inverting this because Xbox controllers return
         # negative values when we push forward.
         self.xSpeed = (
@@ -91,8 +112,5 @@ class XboxController():
                 wpimath.applyDeadband(self.wpilibController.getRightX(), 0.02)) * constants['CALCULATIONS']['CHASSIS_MAX_SPEED']
         )
 
-    def rumble(self, intensity): # Sets the vibration intensity of the xbox controller
-        self.wpilibController.setRumble(self.wpilibController.RumbleType.kBothRumble, 0.0)
-
-class ButtonMatrix:
-    pass #TODO: this
+    def rumble(self, intensity: float = 0.0): # Sets the vibration intensity of the xbox controller
+        self.wpilibController.setRumble(self.wpilibController.RumbleType.kBothRumble, intensity)

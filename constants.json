@@ -2,12 +2,6 @@
 	"//": "TODO: Re-calculate/change values of constants to match new robot (and add entries in wiki to document them)",
 
 	"HOSTNAME": 668,
-
-	"EVENTS": {
-		"PERIODIC": false,
-		"TELEOP": false,
-		"AUTON": false
-	},
 	
 	"CONTROLLER_CONSTANTS": {
 	
