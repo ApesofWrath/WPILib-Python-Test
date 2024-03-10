@@ -1,5 +1,5 @@
 # Streamlines implementation of periphierals like xbox controllers, keybaords, button stations, etc.
-from wpilib import XboxController, TimedRobot
+import wpilib
 from wpimath import applyDeadband
 from wpimath.filter import SlewRateLimiter
 
@@ -17,7 +17,7 @@ class XboxController():
     # XboxController
     Module which streamlines controll of an Xbox controller
     '''
-    def __init__(self, instance: TimedRobot):
+    def __init__(self, instance):
         '''
         Constructs the controller class
 
@@ -26,7 +26,7 @@ class XboxController():
         self.instance = instance # The instance should be the name of the class of your robot
 
         # Define our controller
-        self.wpilibController = XboxController(constants['CONTROLLER_CONSTANTS']['CONTROLLER_MAIN_ID'])
+        self.wpilibController = wpilib.XboxController(constants['CONTROLLER_CONSTANTS']['CONTROLLER_MAIN_ID'])
 
         # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
         self.xSpeedLimiter = SlewRateLimiter(constants['CONTROLLER_CONSTANTS']['CONTROLLER_RATE_LIMIT'])
@@ -76,13 +76,14 @@ class XboxController():
 
         trueValues = np.where(self.values == True)[0]
 
-        for index in trueValues and self.macroNames[index] in macros:
-            macroToCall = getattr(self.instance, self.macroNames[index])
+        for index in trueValues:
+            if self.macroNames[index] in macros:
+                macroToCall = getattr(self.instance, self.macroNames[index])
 
-            if macroToCall and callable(macroToCall):
-                macroToCall()
-            else:
-                debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
+                if macroToCall and callable(macroToCall):
+                    macroToCall()
+                else:
+                    debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
         
     def getSwerveValues(self):
         '''

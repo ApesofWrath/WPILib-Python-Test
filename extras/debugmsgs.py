@@ -1,6 +1,3 @@
-# Colors yay
-import os, sys, platform, traceback
-
 scriptFile = None
 def init(file):
     global scriptFile

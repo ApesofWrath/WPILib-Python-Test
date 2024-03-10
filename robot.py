@@ -3,7 +3,7 @@ from extras.debugmsgs import * # Formatted messages used for debugging
 from components.drivetrain import Drivetrain
 from components.controller import XboxController
 
-import wpilib
+from wpilib import TimedRobot
 
 # Load constants from the json file
 import json
@@ -12,7 +12,7 @@ with open('constants.json') as jsonf:
 	jsonf.close()
 
 # Create the robot class (his name is terrance)
-class terrance(wpilib.TimedRobot):
+class terrance(TimedRobot):
     def robotInit(self):
         # Robot initialization
         self.drivetrain = Drivetrain()

@@ -1,7 +1,6 @@
 # Stuck? https://github.com/robotpy/examples/blob/main/SwerveBot/drivetrain.py
 import wpimath.units
 import wpimath.kinematics
-from wpilib import TimedRobot
 
 import navx
 
