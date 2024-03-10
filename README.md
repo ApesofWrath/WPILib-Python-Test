@@ -14,6 +14,9 @@ _It is recommended to develop using Windows 10/11, since as of 1/25/2024 there i
   - [Israel Version](https://firstfrc.blob.core.windows.net/frc2024/Radio/FRC_Radio_Configuration_24_0_1_IL.zip) (עַם יִשְׂרָאֵל חַי)
 - [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
   - NOTE: If Anaconda is already on your system, miniconda is not needed!
+
+__You can also use python's built in 'venv' library to create a virtual environment to test your code, but conda is a neater option IMO__
+
 ## Setup
 
 To setup this code on your computer for development, follow the steps below:
@@ -21,7 +24,7 @@ To setup this code on your computer for development, follow the steps below:
 **Windows/MacOS/Unix/GNU**
 - Make sure all software is downloaded and installed (check "External software")
 - Clone the repository
-- Open **Anaconda Powershell Prompt** and navigate to the parent directory in which the repository is stored on your local machine (NOTE: You will need to use Unix commands like `cd` to navigate in the Anaconda Powershell Prompt)
+- If you are in Windows, open **Anaconda Powershell Prompt** (Any terminal should be fine for Linux and Mac users) and navigate to the parent directory in which the repository is stored on your local machine
 - Build a new conda environment for robotpy using the commands below:
   - `conda env create -n WPILib`
   - `conda activate WPILib`
