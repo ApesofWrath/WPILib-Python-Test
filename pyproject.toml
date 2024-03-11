@@ -18,4 +18,4 @@ robotpy_extras = [
 ]
 
 # Other pip packages to install
-requires = [ "numpy", "phoenix6" ]
+requires = [ "numpy", "phoenix6", "robotpy-ctre", "wheel" ]
