@@ -13,3 +13,6 @@ auton/__pycache__
 
 # Ignore python virtual environment
 /.venv
+
+# Ignore limelight source-code
+/limelightlib-python
