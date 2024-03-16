@@ -94,7 +94,7 @@ class XboxController():
                     else:
                         debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
             except Exception as e:
-                debugMsg(f'n\While indexing macros: {e}n')
+                debugMsg(f'While indexing macros: {e}')
         
     def getSwerveValues(self):
         '''
