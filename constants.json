@@ -62,5 +62,28 @@
 
 		"MOTOR_MAX_OUTPUT": 0.5,
 		"MOTOR_DEADBAND": 0.1
+	},
+
+	"PATHPLANNER_CONSTANTS": {
+		"AUTONOMOUS_COMMANDS": {
+			"1": "",
+			"2": "",
+			"3": ""
+		},
+
+		"TRANSLATION_PID_CONSTANTS": [
+			0.5,
+			0.0,
+			0.0
+		],
+
+		"ROTATION_PID_CONSTANTS": [
+			0.0,
+			0.0,
+			0.0
+		],
+
+		"MAX_SPEED": 4.5,
+		"DRIVE_BASE_RADIUS": 13.625
 	}
 }
