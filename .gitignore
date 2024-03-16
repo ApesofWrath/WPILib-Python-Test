@@ -6,7 +6,7 @@ components/__pycache__
 extras/__pycache__
 eventmanager/__pycache__
 hardware/__pycache__
-autononmous/__pycache__
+autonomous/__pycache__
 
 # Ignore tests
 /tests
