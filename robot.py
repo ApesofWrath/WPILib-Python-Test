@@ -3,7 +3,10 @@ from extras.debugmsgs import * # Formatted messages used for debugging
 from components.drivetrain import Drivetrain
 from components.controller import XboxController
 
-from wpilib import TimedRobot
+from pathplannerlib.auto import NamedCommands
+from autonomous.autonomous import PPL
+
+import wpilib
 
 # Load constants from the json file
 import json
@@ -12,7 +15,7 @@ with open('constants.json') as jsonf:
 	jsonf.close()
 
 # Create the robot class (his name is terrance)
-class terrance(TimedRobot):
+class terrance(wpilib.TimedRobot):
     def robotInit(self):
         # Robot initialization
         self.drivetrain = Drivetrain()
@@ -23,9 +26,24 @@ class terrance(TimedRobot):
             successMsg('Xbox controller initialized')
         except Exception as e:
             errorMsg('Issue in initializing xbox controller:', e, __file__)
-    
-    # Add proccesses that should always be running at all times here
+
+        self.PPL = 
+
+        '''
+        THIS IS TEMPORARY DONT HARASS ME ABOUT IT :)
+
+        try:
+            # Register Named Commands
+            for command in constants["PATHPLANNER_CONSTANTS"]["AUTONOMOUS_COMMANDS"].keys():
+                # Register's a command that runs an auton command based on the given string name of the function
+                NamedCommands.registerCommand(str(command), autonCommand(str(command)))
+        except Exception as e:
+            errorMsg('Could not register commands to PPL:',e,__file__)
+        '''
+
     def robotPeriodic(self):
+        # Add proccesses that should always be running at all times here
+
         # Execute macros based on controller state
         self.controller.executeMacros(['zeroGyro'])
     
@@ -39,6 +57,9 @@ class terrance(TimedRobot):
 
         # Vibrate xbox controller to let driver know they are in auton mode
         self.controller.rumble(0.5)
+
+        # Run the autonomous command
+
 
     def autonomousPeriodic(self): 
         # Called every 20ms in autonomous mode.
@@ -64,8 +85,10 @@ class terrance(TimedRobot):
         # Called when exiting teleop mode
         debugMsg('Exiting tele-operated mode')
 
-    # Custom method to drive with joystick
-    def driveWithJoystick(self, state):
+    def driveWithJoystick(self, state: bool):
+        '''
+        Custom method to drive with joystick
+        '''
         self.controller.getSwerveValues()
         self.drivetrain.drive(self.controller.xSpeed, 
                               self.controller.ySpeed, 

@@ -8,11 +8,6 @@ from .swervemodule import SwerveModule
 
 from extras.debugmsgs import *
 
-class seconds:
-	'''
-	# Does nothing, used for doumentation formatting
-	'''
-
 # Load constants from the json file
 import json
 with open('constants.json') as jsonf:
@@ -26,14 +21,12 @@ class Drivetrain():
 	Class that controlls components of the drivetrain (anything that moves the robot forwards, backwards, and sideways)
 	'''
 	def __init__(self):
-		# Setup the gyro
 		try:
+			# Setup the gyro
 			self.navx = navx.AHRS.create_spi()
 			self.zeroGyro()
 		except Exception as e:
-			errorMsg('Issue initializing NavX:',e,__file__) # We have to declare file since the global file 
-														    # in drivetrain.py is overiding the global file in swervemodule.oy
-			pass
+			errorMsg('Issue initializing NavX:',e,__file__)
 		
 		# Each member variable represents a 'swervemodule.SwerveModule()' object
 		self.swerveFrontLeft = SwerveModule(
@@ -82,6 +75,26 @@ class Drivetrain():
             ),
         )
 
+		
+
+	def getRelativeSpeeds(self):
+		'''
+		Returns robot relative speeds that were derived from field relative speeds
+		'''
+		self.speeds = self.kinematics.toChassisSpeeds(
+			(
+				self.swerveFrontRight.getState(), 
+				self.swerveBackRight.getState(), 
+				self.swerveFrontLeft.getState(), 
+				self.swerveBackLeft.getState()
+			)
+		)
+		return wpimath.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
+			self.speeds.vx,
+			self.speeds.vy,
+			self.speeds.omega,
+			self.navx.getRotation2d())
+
 	def zeroGyro(self):
 		'''
 		Re-calibrates the NavX gyroscope
@@ -107,10 +120,35 @@ class Drivetrain():
             )
         )
 
-	def drive(self, xSpeed: float, ySpeed: float, rotation: float, fieldRelative: bool, periodSeconds: seconds):
+	def getOdometry(self):
+		'''
+		Returns the field relative position of the robot
+		'''
+		return self.odometry.getPose()
+	
+	def resetOdometry(self, initPose):
+		'''
+		Resets odometry of the robot
+		'''
+		self.odometry.resetPosition(
+			self.navx.getRotation2d(),
+
+			(
+				self.swerveFrontRight.getPosition(),
+				self.swerveBackRight.getPosition(),
+				self.swerveFrontLeft.getPosition(),
+				self.swerveBackLeft.getPosition(),
+			),
+			
+			initPose
+		)
+
+	def drive(self, xSpeed: float, ySpeed: float, rotation: float, fieldRelative: bool, periodSeconds: wpimath.units.seconds):
 		'''
 		Drives the robot based on the imput from the xbox controller
 		'''
+
+		# Get the swerve-module states
 		swerveModuleStates = self.kinematics.toSwerveModuleStates(
             wpimath.kinematics.ChassisSpeeds.discretize(
                 (
@@ -119,11 +157,13 @@ class Drivetrain():
                     )
 					
                     if fieldRelative
-                    else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rotation)
+                    else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rotation) # Return minimal output if not field relative
                 ),
                 periodSeconds
             )
         )
+
+		# Renormalize speeds (compensates if any speeds are too fast/slow)
 		wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
             swerveModuleStates, constants['CALCULATIONS']['MODULE_MAX_SPEED']
         )
