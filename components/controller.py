@@ -17,11 +17,11 @@ class XboxController():
     # XboxController
     Module which streamlines controll of an Xbox controller
     '''
-    def __init__(self, instance):
+    def __init__(self, instance: object):
         '''
         Constructs the controller class
 
-        The 'instance' argument should be the class of your robot
+        The 'instance' argument should be the object of your robot
         '''
         self.instance = instance # The instance should be the name of the class of your robot
 
@@ -54,8 +54,7 @@ class XboxController():
         # Eack key can be set in 'constants.json' to carry out a function in annother python script
         self.macroNames = [constants['CONTROLLER_CONSTANTS']['MACROS'][key] for key in ['START', 'A', 'B', 'X', 'Y', 'L_BUMPER', 'R_BUMPER', 'L_STICK', 'R_STICK']]
 
-
-    def executeMacros(self, macros: list): # Add this to the 'robotPeriodic()' method
+    def executeMacros(self, macros = None): # Add this to the 'robotPeriodic()' method
         '''
         Use boolean indexing to execute functions for pressed buttons
         '''
@@ -77,13 +76,25 @@ class XboxController():
         trueValues = np.where(self.values == True)[0]
 
         for index in trueValues:
-            if self.macroNames[index] in macros:
-                macroToCall = getattr(self.instance, self.macroNames[index])
+            try:
+                if macros is not None and self.macroNames[index] in macros:
+                    macroToCall = getattr(self.instance, self.macroNames[index])
 
-                if macroToCall and callable(macroToCall):
-                    macroToCall()
-                else:
-                    debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
+                    if macroToCall and callable(macroToCall):
+                        macroToCall()
+                    else:
+                        debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
+
+                elif macros == None:
+                    # If the user did not filter specific macros, just execute all macros if their cooresponding buttons were pressed
+                    macroToCall = getattr(self.instance, self.macroNames[index])
+
+                    if macroToCall and callable(macroToCall):
+                        macroToCall()
+                    else:
+                        debugMsg(f"Method '{self.macroNames[index]}' not found or not callable.", None)
+            except Exception as e:
+                debugMsg(f'n\While indexing macros: {e}n')
         
     def getSwerveValues(self):
         '''
