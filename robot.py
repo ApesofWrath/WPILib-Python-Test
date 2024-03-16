@@ -27,10 +27,10 @@ class terrance(wpilib.TimedRobot):
         except Exception as e:
             errorMsg('Issue in initializing xbox controller:', e, __file__)
 
-        self.PPL = 
+        self.PPL = PPL(self)
 
         '''
-        THIS IS TEMPORARY DONT HARASS ME ABOUT IT :)
+        THIS IS TEMPORARY DONT HARASS ME ABOUT IT :3
 
         try:
             # Register Named Commands
@@ -59,7 +59,7 @@ class terrance(wpilib.TimedRobot):
         self.controller.rumble(0.5)
 
         # Run the autonomous command
-
+        self.PPL.followPath('Example Path')
 
     def autonomousPeriodic(self): 
         # Called every 20ms in autonomous mode.

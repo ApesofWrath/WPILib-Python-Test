@@ -25,7 +25,7 @@ class PPL:
         self.pathFollowerConfig = auto.AutoBuilder.configureHolonomic(
             robot.drivetrain.getOdometry(), # Robot pose supplier
 
-            robot.drivetrain.resetOdometry(Pose2d), # Method to reset odometry (will be called if your auto has a starting pose)
+            robot.drivetrain.resetOdometry(Pose2d()), # Method to reset odometry (will be called if your auto has a starting pose)
 
             robot.drivetrain.getRelativeSpeeds(), # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
 
@@ -58,7 +58,7 @@ class PPL:
             robot.drivetrain # Reference to drivetrain component to set requirements
         )
 
-    def shouldFlipPath():
+    def shouldFlipPath(self):
         '''
         Boolean supplier that controls when the path will be mirrored for the red alliance
         This will flip the path being followed to the red side of the field.
@@ -67,19 +67,19 @@ class PPL:
         return DriverStation.getAlliance() == DriverStation.Alliance.kRed
     
     def followPath(self, pathName: str):
-        # Load the path you want to follow using its name in the GUI
-
         '''
-        [OLD IMPLEMENTATION. KEEP HERE FOR TESTING]
-        
+        Runs a path baed on the file name of the path
+        '''
+
+        #[OLD IMPLEMENTATION. KEEP HERE FOR TESTING]
+
         path = pplpath.PathPlannerPath.fromPathFile(pathName)
 
-        # Create a path following command using AutoBuilder. This will also trigger event markers.
+        #Create a path following command using AutoBuilder. This will also trigger event markers.
         
         return auto.AutoBuilder.followPath(path)
-        '''
 
-        return auto.PathPlannerAuto(pathName)
+        #return auto.PathPlannerAuto(pathName)
 
 class SDRbt:
     '''

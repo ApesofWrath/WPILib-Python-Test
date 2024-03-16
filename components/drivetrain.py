@@ -75,8 +75,6 @@ class Drivetrain():
             ),
         )
 
-		
-
 	def getRelativeSpeeds(self):
 		'''
 		Returns robot relative speeds that were derived from field relative speeds
