@@ -1,4 +1,5 @@
 # WPILib-Python-Test
+# NOTE: THIS REPOSITORY IS NO LONGER BEING USED, SEE "Python-Robot" FOR THE MOST RECENT CODE
 
 _NOTE: This documentation is old and will be updated when the robot code is more stable_
 
