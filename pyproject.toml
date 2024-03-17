@@ -1,19 +1,20 @@
 #
 # Use this configuration file to control what RobotPy packages are installed on your RoboRIO
-# Note: use provided conda environment via `conda env create -f WPILib-Python-Test.yaml`
+# NOTE: Extra module `limelightlib-python` cannot be added to toml file (for some reason). Please pip install it with:
+#   - pip install limelightlib-python
 #
 
 [tool.robotpy]
 
 # Version of robotpy this project depends on
-robotpy_version = "2024.1.1.3"
+robotpy_version = "2024.3.2.1"
 
 # Which extra RobotPy components should be installed -> equivalent to `pip install robotpy[extra1, ...]
 robotpy_extras = [
     "navx",
     "rev",
-    "ctre"
+    "pathplannerlib"
 ]
 
 # Other pip packages to install
-requires = [ "numpy" ]
+requires = [ "numpy", "phoenix6", "wheel" ]
