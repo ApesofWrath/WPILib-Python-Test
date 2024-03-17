@@ -6,7 +6,7 @@ from components.controller import XboxController
 from pathplannerlib.auto import NamedCommands
 from autonomous.autonomous import PPL
 
-import wpilib
+from wpilib import TimedRobot
 
 # Load constants from the json file
 import json
@@ -15,7 +15,7 @@ with open('constants.json') as jsonf:
 	jsonf.close()
 
 # Create the robot class (his name is terrance)
-class terrance(wpilib.TimedRobot):
+class terrance(TimedRobot):
     def robotInit(self):
         # Robot initialization
         self.drivetrain = Drivetrain()
@@ -42,53 +42,36 @@ class terrance(wpilib.TimedRobot):
         '''
 
     def robotPeriodic(self):
-        # Add proccesses that should always be running at all times here
-
-        # Execute macros based on controller state
-        self.controller.executeMacros(['zeroGyro'])
+        # TODO: Add proccesses that should always be running at all times here
+        pass
     
     def disabledPeriodic(self):
         # TODO: Add functionality
         pass
 
-    def autonomousInit(self): 
-        # Called only at the beginning of autonomous mode.
-        debugMsg('Entering autonomous mode')
+    def autonomousInit(self): # Called at the begining of autonomous mode
+        debugMsg('Entering autonomous mode') # Called only at the beginning of autonomous mode.
+        self.controller.rumble(0.5) # Vibrate xbox controller to let driver know they are in auton mode
+        self.PPL.followPath('Example Path') # Run the autonomous command
 
-        # Vibrate xbox controller to let driver know they are in auton mode
-        self.controller.rumble(0.5)
-
-        # Run the autonomous command
-        self.PPL.followPath('Example Path')
-
-    def autonomousPeriodic(self): 
-        # Called every 20ms in autonomous mode.
+    def autonomousPeriodic(self): # Called every 20ms in autonomous mode.
         self.driveWithJoystick(False) # Disable joystick controll in autonomous mode
         self.drivetrain.updateOdometry()
 
-    def teleopInit(self): 
-        # Called only at the begining of teleop mode
-        debugMsg('Entering tele-operated mode')
-
-        # Stop vibrating xbox controller to let driver know they are in teleop mode
-        self.controller.rumble(0.0)
-
-    def teleopPeriodic(self):
-        # Enable drive mode with joystick
-        self.driveWithJoystick(True)
-
-    def autonomousExit(self):
-        # Called when exiting autonomous mode
+    def autonomousExit(self): # Called when exiting autonomous mode
         debugMsg('Exiting autonomous mode')
 
-    def teleopExit(self):
-        # Called when exiting teleop mode
+    def teleopInit(self): # Called only at the begining of teleop mode
+        debugMsg('Entering tele-operated mode')
+        self.controller.rumble(0.0) # Stop vibrating xbox controller to let driver know they are in teleop mode
+
+    def teleopPeriodic(self): # Called every 20 milliseconds in teleop mode
+        self.driveWithJoystick(True) # Enable drive mode with joystick
+
+    def teleopExit(self): # Called when exiting teleop mode
         debugMsg('Exiting tele-operated mode')
 
-    def driveWithJoystick(self, state: bool):
-        '''
-        Custom method to drive with joystick
-        '''
+    def driveWithJoystick(self, state: bool):  # Custom method to drive with joystick
         self.controller.getSwerveValues()
         self.drivetrain.drive(self.controller.xSpeed, 
                               self.controller.ySpeed, 
