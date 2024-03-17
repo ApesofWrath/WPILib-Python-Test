@@ -142,3 +142,5 @@ test.ipynb
 
 # visual studio stuff
 .vscode/
+
+/limelightlib-python
