@@ -27,7 +27,6 @@ class SwerveModule:
         # Set up the turn (absolute) encoder
         try:
             self.absoluteEncoder = phoenix6.hardware.CANcoder(turnEncoderChannel) #TODO: Find what 'CANBus' is
-            #time.sleep(5) # Give some time for phoenix6 to initialize
         except Exception as e:
             errorMsg('Could not initialize absolute encoder:',e,__file__)
 
