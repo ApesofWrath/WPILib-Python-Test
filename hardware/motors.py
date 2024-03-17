@@ -38,9 +38,7 @@ class CANSparkMax:
         '''
         Configures and sets up a relative encoder to the motor
         '''
-        self.relativeEncoder = self.motor.getEncoder(
-                    rev.SparkRelativeEncoder.Type.kHallSensor, 42
-        )
+        self.relativeEncoder = self.motor.getEncoder()
 
         # Configure relative encoder conversion factor (Velocity values for the external turn encoder and the built in drive encoder)
         self.relativeEncoder.setPositionConversionFactor(positionConversionFactor)
